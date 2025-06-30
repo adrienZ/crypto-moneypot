@@ -25,6 +25,12 @@ export const auth = betterAuth({
   //     },
   //     delete: key => storage.del(`_auth:${key}`),
   // },
+  socialProviders: {
+    github: {
+      clientId: process.env.GITHUB_CLIENT_ID as string,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+    },
+  },
   emailAndPassword: {
     enabled: true,
   },
