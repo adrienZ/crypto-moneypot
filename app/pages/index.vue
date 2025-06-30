@@ -2,6 +2,7 @@
   <div>
     <div v-if="user">
       hello {{ user.email }}
+      <NuxtLink to="/profile">profile</NuxtLink>
       <NuxtLink to="/pots/create">create moneypot</NuxtLink>
       <button @click="signOut">logout</button>
     </div>
