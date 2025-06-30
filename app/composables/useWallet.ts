@@ -1,5 +1,6 @@
 import { ref } from "vue";
 import { useNuxtApp } from "#app";
+import { ethers } from "ethers";
 
 export function useWallet() {
   const nuxtApp = useNuxtApp();
@@ -24,5 +25,22 @@ export function useWallet() {
     return wallet;
   }
 
-  return { address, connect, addWallet };
+  async function getNetwork() {
+    const provider = nuxtApp.$ethersProvider;
+    if (!provider) {
+      throw new Error("Ethereum provider not found");
+    }
+    return provider.getNetwork();
+  }
+
+  async function getBalance(addr: string) {
+    const provider = nuxtApp.$ethersProvider;
+    if (!provider) {
+      throw new Error("Ethereum provider not found");
+    }
+    const balance = await provider.getBalance(addr);
+    return ethers.formatEther(balance);
+  }
+
+  return { address, connect, addWallet, getNetwork, getBalance };
 }
