@@ -1,31 +1,33 @@
 {
-	"name": "crypto-oneypot",
-	"private": true,
-	"type": "module",
-	"packageManager": "pnpm@10.4.1",
-	"scripts": {
-		"build": "nuxt build",
-		"dev": "nuxt dev",
-		"generate": "nuxt generate",
-		"preview": "nuxt preview",
-		"postinstall": "nuxt prepare",
-		"db:generate": "npx @better-auth/cli generate --config server/lib/auth.ts --output server/database/schemas/auth-schemas.ts && npx drizzle-kit generate",
-		"db:migrate": "npx drizzle-kit migrate"
-	},
-	"dependencies": {
-		"@electric-sql/pglite": "^0.2.17",
-		"better-auth": "^1.1.21",
-		"drizzle-orm": "^0.39.3",
-		"nuxt": "^3.15.4",
-		"vue": "latest",
-		"vue-router": "latest"
-	},
-	"devDependencies": {
-		"@nuxt/devtools": "^2.1.0",
-		"@nuxt/devtools-kit": "^2.1.0",
-		"drizzle-kit": "^0.30.4",
-		"pg": "^8.13.3",
-		"unstorage": "^1.15.0",
-		"vue-tsc": "^2.2.4"
-	}
+  "name": "crypto-oneypot",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.4.1",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "db:generate": "npx @better-auth/cli generate --config server/lib/auth.ts --output server/database/schemas/auth-schemas.ts && npx drizzle-kit generate",
+    "db:migrate": "npx drizzle-kit migrate"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "^0.2.17",
+    "better-auth": "^1.1.21",
+    "drizzle-orm": "^0.39.3",
+    "nuxt": "^3.17.5",
+    "vue": "latest",
+    "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.0.6",
+    "@nuxt/devtools": "^2.1.0",
+    "@nuxt/devtools-kit": "^2.1.0",
+    "drizzle-kit": "^0.30.4",
+    "pg": "^8.13.3",
+    "unplugin-vue-router": "^0.14.0",
+    "unstorage": "^1.15.0",
+    "vue-tsc": "^2.2.4"
+  }
 }

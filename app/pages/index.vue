@@ -53,24 +53,24 @@ const auth = useAuth();
 const router = useRouter();
 
 const handleLogin = async () => {
-	loading.value = true;
-	errorMessage.value = "";
+  loading.value = true;
+  errorMessage.value = "";
 
-	try {
-		const register = await auth.signUp.email({
-			email: email.value,
-			password: password.value,
-			name: email.value,
-		});
-		router.push("/?auth=success"); // Redirect after successful login
-		if (register.error) {
-			errorMessage.value =
-				register.error.message ?? "Invalid login credentials";
-		}
-	} catch (error) {
-		errorMessage.value = "unhandled error";
-	} finally {
-		loading.value = false;
-	}
+  try {
+    const register = await auth.signUp.email({
+      email: email.value,
+      password: password.value,
+      name: email.value,
+    });
+    router.push("/?auth=success"); // Redirect after successful login
+    if (register.error) {
+      errorMessage.value =
+        register.error.message ?? "Invalid login credentials";
+    }
+  } catch (error) {
+    errorMessage.value = "unhandled error";
+  } finally {
+    loading.value = false;
+  }
 };
 </script>
