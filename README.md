@@ -38,6 +38,25 @@ yarn dev
 bun run dev
 ```
 
+## Local Blockchain
+
+This project ships with a minimal [Hardhat](https://hardhat.org/) setup for
+running a local Ethereum network. Start it in a separate terminal with:
+
+```bash
+pnpm hardhat:node
+```
+
+By default the app connects via a browser wallet (`window.ethereum`). If you
+prefer to connect directly to the local node, create a `.env` file and set
+
+```
+NUXT_PUBLIC_RPC_URL=http://127.0.0.1:8545
+```
+
+Restart the dev server and the app will use this JSON‑RPC endpoint instead of a
+browser wallet.
+
 ## Production
 
 Build the application for production:

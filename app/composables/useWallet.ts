@@ -11,7 +11,15 @@ export function useWallet() {
     if (!provider) {
       throw new Error("Ethereum provider not found");
     }
-    const accounts = await provider.send("eth_requestAccounts", []);
+    let accounts: string[];
+    try {
+      accounts = await (provider as ethers.BrowserProvider).send(
+        "eth_requestAccounts",
+        []
+      );
+    } catch {
+      accounts = await provider.listAccounts();
+    }
     address.value = accounts[0] as string;
     return address.value;
   }
