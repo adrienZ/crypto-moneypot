@@ -29,7 +29,7 @@ import { NuxtLink } from "#components";
 import { useAsyncData } from "#imports";
 import { useWallet } from "~/composables/useWallet";
 
-const { data, refresh } = useAsyncData('profile', () => $fetch('/api/profile'));
+const { data, refresh } = useAsyncData("profile", () => $fetch("/api/profile"));
 const { connect, addWallet } = useWallet();
 
 async function connectAndAdd() {
