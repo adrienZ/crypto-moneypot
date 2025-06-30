@@ -1,6 +1,11 @@
 import { defineEventHandler, createError } from "h3";
 import { db } from "../database/db";
-import { user, session as sessionTable, pots } from "../database/schemas";
+import {
+  user,
+  session as sessionTable,
+  pots,
+  wallets,
+} from "../database/schemas";
 import { auth } from "~~/server/lib/auth";
 import { eq } from "drizzle-orm";
 
@@ -25,9 +30,15 @@ export default defineEventHandler(async (event) => {
     .from(pots)
     .where(eq(pots.creatorId, currentSession.user.id));
 
+  const walletsList = await db
+    .select()
+    .from(wallets)
+    .where(eq(wallets.userId, currentSession.user.id));
+
   return {
     user: profile,
     sessions,
     pots: potsList,
+    wallets: walletsList,
   };
 });
