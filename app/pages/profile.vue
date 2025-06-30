@@ -15,6 +15,11 @@
           <NuxtLink :to="`/pots/${p.id}`">{{ p.title }}</NuxtLink>
         </li>
       </ul>
+      <h3>Your wallets</h3>
+      <ul>
+        <li v-for="w in data.wallets" :key="w.id">{{ w.address }}</li>
+      </ul>
+      <button @click="connectAndAdd">Add Wallet</button>
     </div>
   </div>
 </template>
@@ -22,6 +27,14 @@
 <script setup lang="ts">
 import { NuxtLink } from "#components";
 import { useAsyncData } from "#imports";
+import { useWallet } from "~/composables/useWallet";
 
-const { data } = useAsyncData('profile', () => $fetch('/api/profile'));
+const { data, refresh } = useAsyncData("profile", () => $fetch("/api/profile"));
+const { connect, addWallet } = useWallet();
+
+async function connectAndAdd() {
+  await connect();
+  await addWallet();
+  await refresh();
+}
 </script>
