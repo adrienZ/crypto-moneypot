@@ -4,6 +4,7 @@ import { createStorage } from "unstorage";
 import fsDriver from "unstorage/drivers/fs";
 import { db } from "../database/db";
 import * as authSchemas from "../database/schemas/auth-schemas";
+import github from "better-auth/providers/github";
 
 // const storage = createStorage({
 //     driver: fsDriver({ base: "./.data" }),
@@ -25,7 +26,8 @@ export const auth = betterAuth({
 	//     },
 	//     delete: key => storage.del(`_auth:${key}`),
 	// },
-	emailAndPassword: {
-		enabled: true,
-	},
+        providers: [github()],
+        emailAndPassword: {
+                enabled: true,
+        },
 });
