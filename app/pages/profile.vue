@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { NuxtLink } from "#components";
-import { useLazyAsyncData } from "#imports";
+import { useAsyncData } from "#imports";
 
-const { data } = useLazyAsyncData('profile', () => $fetch('/api/profile'));
+const { data } = useAsyncData('profile', () => $fetch('/api/profile'));
 </script>
