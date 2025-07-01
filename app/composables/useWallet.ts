@@ -1,17 +1,13 @@
 import { ref } from "vue";
-import { useNuxtApp } from "#app";
 import { ethers } from "ethers";
 
+const hardhatProvider = new ethers.JsonRpcProvider("http://127.0.0.1:8545");
+
 export function useWallet() {
-  const nuxtApp = useNuxtApp();
   const address = ref<string | null>(null);
 
   async function connect() {
-    const provider = nuxtApp.$ethersProvider;
-    if (!provider) {
-      throw new Error("Ethereum provider not found");
-    }
-    const accounts = await provider.send("eth_requestAccounts", []);
+    const accounts = await hardhatProvider.send("eth_requestAccounts", []);
     address.value = accounts[0] as string;
     return address.value;
   }
@@ -26,19 +22,11 @@ export function useWallet() {
   }
 
   async function getNetwork() {
-    const provider = nuxtApp.$ethersProvider;
-    if (!provider) {
-      throw new Error("Ethereum provider not found");
-    }
-    return provider.getNetwork();
+    return hardhatProvider.getNetwork();
   }
 
   async function getBalance(addr: string) {
-    const provider = nuxtApp.$ethersProvider;
-    if (!provider) {
-      throw new Error("Ethereum provider not found");
-    }
-    const balance = await provider.getBalance(addr);
+    const balance = await hardhatProvider.getBalance(addr);
     return ethers.formatEther(balance);
   }
 
