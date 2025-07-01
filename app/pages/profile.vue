@@ -31,12 +31,14 @@
 
 <script setup lang="ts">
 import { NuxtLink } from "#components";
-import { useAsyncData } from "#imports";
+import { useAsyncData, useRequestHeaders } from "#imports";
 import { onMounted, reactive, ref, watch } from "vue";
 import { useWallet } from "~/composables/useWallet";
 
+// headers for cookies and session
+const headers = useRequestHeaders()
 const { data, refresh, status, error } = useAsyncData("profile", () =>
-  $fetch("/api/profile"),
+  $fetch("/api/profile", { headers }),
 );
 
 // TODO: handle deconection of wallet from wallet

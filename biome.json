@@ -6,6 +6,9 @@
   "linter": {
     "enabled": false
   },
+  "assist": {
+    "enabled": false
+  },
   "vcs": {
     "enabled": true,
     "clientKind": "git",
