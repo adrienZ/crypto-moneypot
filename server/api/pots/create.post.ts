@@ -15,8 +15,8 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
   }
 
-  const wallet = Wallet.createRandom(blockchainService.provider)
-  
+  const wallet = Wallet.createRandom(blockchainService.provider);
+
   const [pot] = await db
     .insert(pots)
     .values({

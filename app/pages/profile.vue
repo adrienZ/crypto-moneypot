@@ -16,13 +16,16 @@
         </li>
       </ul>
       <h3>Your wallets</h3>
-      <p v-if="network">Network: {{ network.name }} ({{ network.chainId }})</p>
       <ul>
-        <li v-for="w in data.wallets" :key="w.id">
-          <!-- TODO: use user locale -->
-          {{ w.address }} - added  {{ new Intl.DateTimeFormat("en-US", { dateStyle: "full" }).format(new Date( w.createdAt)) }} -
-          <span v-if="walletInfos[w.id]">{{ walletInfos[w.id].balance }} ETH</span>
-        </li>
+        <template v-for="w in wallets" :key="`key-wallet-${w.label}`">
+          <li v-for="account in w.accounts">
+            <fieldset>
+              <legend>{{ w.label }}<img width="16" :src="w.icon" /></legend>
+              <div>{{ account.address }}</div>
+              <div>{{ account.balance }}</div>
+            </fieldset>
+          </li>
+        </template>
       </ul>
       <button @click="connectAndAdd">Add Wallet</button>
     </div>
@@ -31,39 +34,17 @@
 
 <script setup lang="ts">
 import { NuxtLink } from "#components";
-import { useAsyncData, useRequestHeaders } from "#imports";
-import { onMounted, reactive, ref, watch } from "vue";
-import { useWallet } from "~/composables/useWallet";
+import { useAsyncData, useRequestHeaders, useWallet } from "#imports";
 
 // headers for cookies and session
 const headers = useRequestHeaders();
-const { data, refresh, status, error } = useAsyncData("profile", () =>
+const { data, status, error } = useAsyncData("profile", () =>
   $fetch("/api/profile", { headers }),
 );
 
-// TODO: handle deconection of wallet from wallet
-const { connect, addWallet, getNetwork, getBalance } = useWallet();
-
-const network = ref<{ name: string; chainId: bigint } | null>(null);
-const walletInfos = reactive<Record<number, { balance: string }>>({});
-
-async function fetchExtraInfo() {
-  if (data.value?.wallets) {
-    const net = await getNetwork();
-    network.value = { name: net.name, chainId: net.chainId };
-    for (const w of data.value.wallets) {
-      walletInfos[w.id] = { balance: await getBalance(w.address) };
-    }
-  }
-}
-
-onMounted(fetchExtraInfo);
-watch(data, fetchExtraInfo);
+const { wallets, connect } = useWallet();
 
 async function connectAndAdd() {
   await connect();
-  await addWallet();
-  await refresh();
-  await fetchExtraInfo();
 }
 </script>
