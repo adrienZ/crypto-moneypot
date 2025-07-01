@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.0.6",
-    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "@nomicfoundation/hardhat-toolbox": "^6.0.0",
     "@nuxt/devtools": "^2.6.0",
     "@nuxt/devtools-kit": "^2.6.0",
     "drizzle-kit": "^0.31.4",
