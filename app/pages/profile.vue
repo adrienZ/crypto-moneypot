@@ -36,7 +36,7 @@ import { onMounted, reactive, ref, watch } from "vue";
 import { useWallet } from "~/composables/useWallet";
 
 // headers for cookies and session
-const headers = useRequestHeaders()
+const headers = useRequestHeaders();
 const { data, refresh, status, error } = useAsyncData("profile", () =>
   $fetch("/api/profile", { headers }),
 );

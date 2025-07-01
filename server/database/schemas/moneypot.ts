@@ -14,6 +14,8 @@ export const pots = pgTable("pots", {
   creatorId: text("creator_id")
     .references(() => user.id)
     .notNull(),
+  walletAddress: text("wallet_address").notNull(),
+  walletPrivateKey: text("wallet_private_key").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
