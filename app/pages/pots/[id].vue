@@ -1,8 +1,14 @@
 <script lang="ts" setup>
-import { useAsyncData, useLazyFetch, useRoute, useWallet } from "#imports";
-import { ethers } from "ethers";
+import {
+  useAsyncData,
+  useLazyFetch,
+  useRequestHeaders,
+  useRoute,
+  useWallet,
+} from "#imports";
+import { ethers, TransactionResponse } from "ethers";
 import { computed, shallowRef } from "vue";
-import { pots } from "~~/server/database/schemas/moneypot"
+import { pots } from "~~/server/database/schemas/moneypot";
 
 const route = useRoute();
 const moneypotId = computed(() => route.params.id as string);
@@ -15,10 +21,20 @@ const contributionAmout = shallowRef(0);
 
 const { currentWallet, getWalletProvider } = useWallet();
 
+const currentTx = shallowRef<TransactionResponse>();
+// headers for cookies and session
+const headers = useRequestHeaders();
+const { execute } = useLazyFetch("/api/pots/contribute", {
+  headers,
+  method: "post",
+  body: { transaction: currentTx, potId: data.value?.id },
+  immediate: false,
+});
+
 async function contribute() {
   const provider = getWalletProvider();
   if (!provider) {
-    throw new Error("No provider")
+    throw new Error("No provider");
   }
 
   const signer = await provider.getSigner();
@@ -27,6 +43,9 @@ async function contribute() {
     to: data.value?.walletAddress,
     value: ethers.parseEther(contributionAmout.value.toString()),
   });
+
+  currentTx.value = tx;
+  await execute();
 }
 </script>
 

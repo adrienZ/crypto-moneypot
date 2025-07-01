@@ -27,8 +27,8 @@ export const contributions = pgTable("contributions", {
   contributorId: text("contributor_id")
     .references(() => user.id)
     .notNull(),
-  from: text('from').notNull(),
-  to: text('to').notNull(),
+  from: text("from").notNull(),
+  to: text("to").notNull(),
   amount: text("amount").notNull(),
   txHash: text("tx_hash").notNull(),
 });

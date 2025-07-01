@@ -8,7 +8,7 @@ export function useWallet() {
   const injected = injectedModule();
 
   const wallets = shallowRef<WalletState[]>([]);
-  const currentWallet = computed(() => wallets.value.at(0))
+  const currentWallet = computed(() => wallets.value.at(0));
 
   const onboard = Onboard({
     wallets: [injected],
@@ -22,11 +22,11 @@ export function useWallet() {
     ],
     accountCenter: {
       desktop: {
-        enabled: false
+        enabled: false,
       },
       mobile: {
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     connect: {
       autoConnectLastWallet: true,
@@ -56,7 +56,7 @@ export function useWallet() {
 
   onUnmounted(() => {
     unsubscribe();
-  })
+  });
 
   function connect() {
     return onboard.connectWallet();
@@ -67,7 +67,9 @@ export function useWallet() {
       return null;
     }
 
-    const ethersProvider = new ethers.BrowserProvider(currentWallet.value.provider);
+    const ethersProvider = new ethers.BrowserProvider(
+      currentWallet.value.provider,
+    );
     return ethersProvider;
   }
 
