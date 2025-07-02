@@ -50,6 +50,16 @@ pnpm hardhat:node
 Then connect your browser wallet (e.g. MetaMask) to `http://127.0.0.1:8545` and
 use the accounts provided by Hardhat for testing contract interactions.
 
+## Database Seeding
+
+After running migrations, populate the local database with example data:
+
+```bash
+pnpm db:seed
+```
+
+This command inserts five demo users and creates three pots for each user.
+
 ## Production
 
 Build the application for production:

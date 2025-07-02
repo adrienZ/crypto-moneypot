@@ -13,6 +13,8 @@
     "format": "pnpm exec biome format --write",
     "db:generate": "npx @better-auth/cli generate --config server/lib/auth.ts --output server/database/schemas/auth-schemas.ts && npx drizzle-kit generate",
     "db:migrate": "npx drizzle-kit migrate"
+    ,
+    "db:seed": "pnpm exec ts-node server/database/seed.ts"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.2.17",
