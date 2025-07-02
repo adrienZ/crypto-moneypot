@@ -29,7 +29,10 @@ export default defineEventHandler(async (event) => {
   const { to, from, value, hash } = transaction;
 
   if (!to) {
-    throw createError({ statusCode: 404, statusMessage: "Transaction destination not found" });
+    throw createError({
+      statusCode: 404,
+      statusMessage: "Transaction destination not found",
+    });
   }
 
   const [contribution] = await db

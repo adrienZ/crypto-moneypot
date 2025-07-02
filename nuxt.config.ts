@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
-  modules: ["@nuxt/devtools", "./app/modules/drizzle-studio"],
+  modules: ["@nuxt/devtools", "@nuxt/ui", "./app/modules/drizzle-studio"],
   future: {
     compatibilityVersion: 4,
   },
