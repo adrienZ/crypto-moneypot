@@ -2,7 +2,7 @@
   <div>
     <h2>Your profile {{ status }} {{ error }}</h2>
     <div v-if="data">
-      <p>Email: {{ data.user.email }}</p>
+      <p v-if="data.user">Email: {{ data.user.email }}</p>
       <h3>Sessions</h3>
       <ul>
         <li v-for="s in data.sessions" :key="s.id">

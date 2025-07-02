@@ -10,11 +10,11 @@ import { ethers, TransactionResponse } from "ethers";
 import { computed, shallowRef } from "vue";
 import { pots } from "~~/server/database/schemas/moneypot";
 
-const route = useRoute();
-const moneypotId = computed(() => route.params.id as string);
+const route = useRoute("pots-id");
+const moneypotId = computed(() => route.params.id);
 
-const { data } = useAsyncData<typeof pots.$inferSelect>(moneypotId, () =>
-  $fetch(`/api/pots/${moneypotId.value}`),
+const { data } = useAsyncData(moneypotId, () =>
+  $fetch(`/api/pots/${moneypotId.value as "string to have type inference"}`),
 );
 
 const contributionAmout = shallowRef(0);
