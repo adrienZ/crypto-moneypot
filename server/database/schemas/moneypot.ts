@@ -14,6 +14,8 @@ export const pots = pgTable("pots", {
   creatorId: text("creator_id")
     .references(() => user.id)
     .notNull(),
+  walletAddress: text("wallet_address").notNull(),
+  walletPrivateKey: text("wallet_private_key").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -25,6 +27,8 @@ export const contributions = pgTable("contributions", {
   contributorId: text("contributor_id")
     .references(() => user.id)
     .notNull(),
+  from: text("from").notNull(),
+  to: text("to").notNull(),
   amount: text("amount").notNull(),
   txHash: text("tx_hash").notNull(),
 });

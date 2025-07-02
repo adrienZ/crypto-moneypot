@@ -2,6 +2,8 @@ import { defineEventHandler, readBody, createError } from "h3";
 import { db } from "../../database/db";
 import { pots } from "../../database/schemas";
 import { auth } from "~~/server/lib/auth";
+import { Wallet } from "ethers";
+import blockchainService from "~~/server/lib/BlockchainService";
 
 export default defineEventHandler(async (event) => {
   const { title } = await readBody<{ title: string }>(event);
@@ -12,9 +14,17 @@ export default defineEventHandler(async (event) => {
   if (!session) {
     throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
   }
+
+  const wallet = Wallet.createRandom(blockchainService.provider);
+
   const [pot] = await db
     .insert(pots)
-    .values({ title, creatorId: session.user.id })
+    .values({
+      title,
+      creatorId: session.user.id,
+      walletAddress: wallet.address,
+      walletPrivateKey: wallet.privateKey,
+    })
     .returning();
   return { pot };
 });

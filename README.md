@@ -38,6 +38,18 @@ yarn dev
 bun run dev
 ```
 
+## Local Blockchain
+
+This project ships with a minimal [Hardhat](https://hardhat.org/) setup for
+running a local Ethereum network. Start it in a separate terminal with:
+
+```bash
+pnpm hardhat:node
+```
+
+Then connect your browser wallet (e.g. MetaMask) to `http://127.0.0.1:8545` and
+use the accounts provided by Hardhat for testing contract interactions.
+
 ## Production
 
 Build the application for production:

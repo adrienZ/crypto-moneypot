@@ -12,11 +12,17 @@
 import { ref } from "vue";
 import { navigateTo } from "#app";
 const title = ref("");
+
 const createPot = async () => {
   const { pot } = await $fetch("/api/pots/create", {
     method: "POST",
     body: { title: title.value },
   });
+
+  if (!pot) {
+    throw new Error("error while creating pot");
+  }
+
   await navigateTo(`/pots/${pot.id}`);
 };
 </script>
