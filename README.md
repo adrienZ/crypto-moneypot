@@ -58,7 +58,8 @@ After running migrations, populate the local database with example data:
 pnpm db:seed
 ```
 
-This command inserts five demo users and creates three pots for each user.
+This command runs the seeding script with [jiti](https://github.com/nuxt/jiti)
+and inserts five demo users with three pots each.
 
 ## Production
 
