@@ -8,7 +8,6 @@ import {
 } from "#imports";
 import { ethers, TransactionResponse } from "ethers";
 import { computed, shallowRef } from "vue";
-import { pots } from "~~/server/database/schemas/moneypot";
 
 const route = useRoute("pots-id");
 const moneypotId = computed(() => route.params.id);

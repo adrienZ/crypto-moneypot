@@ -1,4 +1,4 @@
-import { computed, onMounted, onUnmounted, readonly, shallowRef } from "vue";
+import { computed, onMounted, readonly, shallowRef } from "vue";
 import Onboard, { type WalletState } from "@web3-onboard/core";
 import injectedModule from "@web3-onboard/injected-wallets";
 import { ethers } from "ethers";
@@ -35,7 +35,7 @@ export function useWallet() {
   });
 
   const state = onboard.state.select();
-  const { unsubscribe } = state.subscribe((update) => {
+  state.subscribe((update) => {
     wallets.value = update.wallets;
   });
 
@@ -54,12 +54,20 @@ export function useWallet() {
     }
   });
 
-  onUnmounted(() => {
-    unsubscribe();
-  });
+  // onUnmounted(() => {
+  //   unsubscribe();
+  // });
 
   function connect() {
     return onboard.connectWallet();
+  }
+
+  async function removeWallet() {
+    if (!currentWallet.value) {
+      return null;
+    }
+
+    return onboard.disconnectWallet({ label: currentWallet.value.label });
   }
 
   function getWalletProvider() {
@@ -75,6 +83,7 @@ export function useWallet() {
 
   return {
     connect,
+    removeWallet,
     getWalletProvider,
     currentWallet: readonly(currentWallet),
     wallets: readonly(wallets),
