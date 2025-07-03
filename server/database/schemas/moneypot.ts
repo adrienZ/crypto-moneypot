@@ -1,12 +1,6 @@
 import { pgTable, serial, integer, text, timestamp } from "drizzle-orm/pg-core";
 import { user } from "./auth-schemas";
-
-// export const users = pgTable("users", {
-//   id: serial("id").primaryKey(),
-//   email: text("email").notNull().unique(),
-//   githubId: text("github_id").notNull().unique(),
-//   walletAddress: text("wallet_address"),
-// });
+import { defaultDatesColumns } from "./schema-utils";
 
 export const pots = pgTable("pots", {
   id: serial("id").primaryKey(),
@@ -16,7 +10,7 @@ export const pots = pgTable("pots", {
     .notNull(),
   walletAddress: text("wallet_address").notNull(),
   walletPrivateKey: text("wallet_private_key").notNull(),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
+  ...defaultDatesColumns
 });
 
 export const contributions = pgTable("contributions", {
@@ -31,4 +25,5 @@ export const contributions = pgTable("contributions", {
   to: text("to").notNull(),
   amount: text("amount").notNull(),
   txHash: text("tx_hash").notNull(),
+  ...defaultDatesColumns
 });

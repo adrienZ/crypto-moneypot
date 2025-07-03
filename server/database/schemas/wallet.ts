@@ -1,5 +1,6 @@
 import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 import { user } from "./auth-schemas";
+import { defaultDatesColumns } from "./schema-utils";
 
 export const wallets = pgTable("wallets", {
   id: serial("id").primaryKey(),
@@ -7,5 +8,5 @@ export const wallets = pgTable("wallets", {
     .notNull()
     .references(() => user.id),
   address: text("address").notNull(),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
+  ...defaultDatesColumns
 });

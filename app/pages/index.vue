@@ -10,7 +10,7 @@
 
     <div class="bg-slate-700 p-6" v-if="recentMoneypots">
       <ul class="grid grid-cols-5 gap-4">
-        <li v-for="moneypot, idx in recentMoneypots.pots" :key="moneypot.id">
+        <li v-for="moneypot in recentMoneypots.pots" :key="moneypot.id">
           <NuxtLink :to="{
             name: 'pots-id',
             params: {
@@ -30,8 +30,7 @@
 
 <script setup lang="ts">
 import { useAsyncData } from "#app";
-import { NuxtLink, UButton, UCard } from "#components";
-import { computed } from "vue";
+import { NuxtLink, UButton } from "#components";
 import MoneypotCard from "~/components/MoneypotCard.vue";
 import { getUIPropsFromMoneypot } from "~/helpers/moneypotUIHelpers";
 

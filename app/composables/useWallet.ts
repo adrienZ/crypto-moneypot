@@ -10,6 +10,7 @@ export function useWallet() {
   const wallets = shallowRef<WalletState[]>([]);
   const currentWallet = computed(() => wallets.value.at(0));
 
+  // https://onboard.blocknative.com/docs/getting-started/installation
   const onboard = Onboard({
     wallets: [injected],
     chains: [
