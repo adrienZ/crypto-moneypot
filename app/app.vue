@@ -10,4 +10,5 @@
 import { NuxtRouteAnnouncer, NuxtPage } from "#components";
 import TheHeader from "./components/TheHeader.vue";
 import "~/assets/style/main.css";
+import "quill/dist/quill.snow.css";
 </script>

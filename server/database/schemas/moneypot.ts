@@ -1,6 +1,14 @@
-import { pgTable, serial, integer, text, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, serial, integer, text, bigint, uuid } from "drizzle-orm/pg-core";
 import { user } from "./auth-schemas";
 import { defaultDatesColumns } from "./schema-utils";
+
+const type = [ "consumer", "charity"] as const
+export const potCategory = pgTable("pot_category", {
+  id: uuid("id").primaryKey(),
+  type: text("type", { enum: type }).notNull(),
+  slug: text("slug").notNull(),
+  ...defaultDatesColumns
+});
 
 export const pots = pgTable("pots", {
   id: serial("id").primaryKey(),
@@ -8,6 +16,12 @@ export const pots = pgTable("pots", {
   creatorId: text("creator_id")
     .references(() => user.id)
     .notNull(),
+  categoryId: uuid("category_id")
+    .references(() => potCategory.id)
+    .notNull(),
+  targetAmount: bigint("target_amount", { mode: "bigint" }),
+  coverImage: text("cover_image"),
+  description: text("description").notNull(),
   walletAddress: text("wallet_address").notNull(),
   walletPrivateKey: text("wallet_private_key").notNull(),
   ...defaultDatesColumns
