@@ -40,6 +40,21 @@
           <RichTextEditor v-model="description" />
         </LazyClientOnly>
 
+        <UFormField label="Image" name="coverImage">
+          <input
+            type="file"
+            accept="image/png,image/jpeg,image/jpg"
+            @change="handleFileChange"
+          />
+          <div v-if="uploadStatus === 'pending'" class="text-sm mt-1">Uploading...</div>
+          <ul class="text-sm mt-1">
+            <li>• Your image must be smaller than 10 MB.</li>
+            <li>• Accepted formats are .jpg, .jpeg and .png</li>
+            <li>• Minimum 350 px wide and 255 px high</li>
+            <li>• Offensive images will not be accepted.</li>
+          </ul>
+        </UFormField>
+
 
         <UButton type="submit">
           Submit
@@ -52,8 +67,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, shallowRef } from "vue";
-import { navigateTo, useAsyncData } from "#app";
+import { computed, shallowRef, ref } from "vue";
+import { navigateTo, useAsyncData, useLazyFetch } from "#app";
 import { UTimeline, UCard, USwitch } from "#components";
 import type { TimelineItem } from "@nuxt/ui";
 import * as z from "zod";
@@ -68,6 +83,13 @@ const categoryId = useUrlParams("categoryId");
 const titleUrl = useUrlParams("title");
 const targetAmount = useUrlParams("targetAmount");
 const description = shallowRef("");
+const selectedFile = shallowRef<File | null>(null);
+const coverImagePath = shallowRef<string | null>(null);
+const {
+  execute: uploadImage,
+  status: uploadStatus,
+  data: uploadedData,
+} = useLazyFetch("/api/upload", { method: "POST", immediate: false });
 // #endregion
 
 // #region steps form state
@@ -77,6 +99,7 @@ const formStep2 = computed(() => ({
   targetAmount: Number(targetAmount.value) * 1000,
   description: description.value,
   categoryId: categoryId.value,
+  coverImage: coverImagePath.value || "",
 }));
 // #endregion
 
@@ -85,6 +108,7 @@ const schema = z.object({
   targetAmount: z.number().optional(),
   description: z.string().min(1),
   categoryId: z.string().min(1),
+  coverImage: z.string().min(1),
 });
 
 type Schema = z.output<typeof schema>;
@@ -145,6 +169,30 @@ const moneypotCategoriesTypes = computed(() =>
 function handleCategorySelection(selectedCategoryId: string) {
   categoryId.value = selectedCategoryId;
   currentStep.value = 1;
+}
+
+async function handleFileChange(event: Event) {
+  const input = event.target as HTMLInputElement;
+  if (!input.files || input.files.length === 0) return;
+  const file = input.files[0];
+  const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+  if (!allowedTypes.includes(file.type) || file.size > 10 * 1024 * 1024) {
+    alert("Invalid image");
+    return;
+  }
+  const img = new Image();
+  img.src = URL.createObjectURL(file);
+  await new Promise<void>((resolve) => {
+    img.onload = () => resolve();
+  });
+  if (img.width < 350 || img.height < 255) {
+    alert("Image too small");
+    return;
+  }
+
+  selectedFile.value = file;
+  await uploadImage({ body: file, headers: { "Content-Type": file.type } });
+  coverImagePath.value = uploadedData.value?.url || null;
 }
 
 const createPot = async () => {

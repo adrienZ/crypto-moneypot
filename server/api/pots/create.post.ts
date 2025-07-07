@@ -11,10 +11,13 @@ const routeSchema = z.object({
   description: z.string().min(1),
   categoryId: z.string().min(1),
   targetAmount: z.number().optional(),
+  coverImage: z.string().optional(),
 });
 
 export default defineEventHandler(async (event) => {
-  const { title, categoryId, description, targetAmount } = routeSchema.parse(await readBody(event));
+  const { title, categoryId, description, targetAmount, coverImage } = routeSchema.parse(
+    await readBody(event),
+  );
 
   const session = await auth.api.getSession({
     headers: event.headers,
@@ -35,6 +38,7 @@ export default defineEventHandler(async (event) => {
       creatorId: session.user.id,
       walletAddress: wallet.address,
       walletPrivateKey: wallet.privateKey,
+      coverImage,
     })
     .returning();
   return { pot };
