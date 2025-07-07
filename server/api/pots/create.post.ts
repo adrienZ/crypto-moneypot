@@ -8,10 +8,13 @@ import * as z from "zod/v4";
 
 const routeSchema = z.object({
   title: z.string().min(1),
+  description: z.string().min(1),
+  categoryId: z.string().min(1),
+  targetAmount: z.number().optional(),
 });
 
 export default defineEventHandler(async (event) => {
-  const { title } = routeSchema.parse(await readBody<{ title: string }>(event));
+  const { title, categoryId, description, targetAmount } = routeSchema.parse(await readBody(event));
 
   const session = await auth.api.getSession({
     headers: event.headers,
@@ -26,6 +29,9 @@ export default defineEventHandler(async (event) => {
     .insert(pots)
     .values({
       title,
+      categoryId,
+      description,
+      targetAmount: targetAmount ? BigInt(targetAmount) : undefined,
       creatorId: session.user.id,
       walletAddress: wallet.address,
       walletPrivateKey: wallet.privateKey,

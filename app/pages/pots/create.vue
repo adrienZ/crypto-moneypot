@@ -22,7 +22,7 @@
     </section>
 
     <section v-if="currentStep === 1">
-      <UForm :schema="schema" :state="formStep2" class="space-y-4" @submit="handleStep1FormSubmit">
+      <UForm :schema="schema" :state="formStep2" class="space-y-4" @submit.prevent="createPot">
         <UFormField label="Title" name="title">
           <UInput v-model="titleUrl" />
         </UFormField>
@@ -32,10 +32,13 @@
             <USwitch v-model="enabledTargetAmount" />
           </UFormField>
           <UFormField v-show="enabledTargetAmount" label="taget amount" name="targetAmount">
-            <UInput v-model="targetAmout" type="number" />
+            <UInput v-model="targetAmount" type="number" />
           </UFormField>
         </div>
 
+        <LazyClientOnly>
+          <RichTextEditor v-model="description" />
+        </LazyClientOnly>
 
 
         <UButton type="submit">
@@ -44,15 +47,6 @@
       </UForm>
 
     </section>
-
-    <section v-if="currentStep === 2">
-      Step 2
-      <LazyClientOnly>
-        <RichTextEditor />
-      </LazyClientOnly>
-
-    </section>
-
 
   </div>
 </template>
@@ -72,20 +66,25 @@ import RichTextEditor from "~/components/RichTextEditor.vue";
 const categoryId = useUrlParams("categoryId");
 //step 2
 const titleUrl = useUrlParams("title");
-const targetAmout = useUrlParams("targetAmout");
+const targetAmount = useUrlParams("targetAmount");
+const description = shallowRef("");
 // #endregion
 
 // #region steps form state
 const enabledTargetAmount = shallowRef(false);
 const formStep2 = computed(() => ({
   title: titleUrl.value,
-  targetAmout: Number(targetAmout.value) * 1000,
+  targetAmount: Number(targetAmount.value) * 1000,
+  description: description.value,
+  categoryId: categoryId.value,
 }));
 // #endregion
 
 const schema = z.object({
   title: z.string().min(1),
-  targetAmout: z.number().optional(),
+  targetAmount: z.number().optional(),
+  description: z.string().min(1),
+  categoryId: z.string().min(1),
 });
 
 type Schema = z.output<typeof schema>;
@@ -148,14 +147,10 @@ function handleCategorySelection(selectedCategoryId: string) {
   currentStep.value = 1;
 }
 
-function handleStep1FormSubmit(event: FormSubmitEvent<Schema>) {
-  currentStep.value = 2;
-}
-
 const createPot = async () => {
   const { pot } = await $fetch("/api/pots/create", {
     method: "POST",
-    body: { title: title.value },
+    body: formStep2.value,
   });
 
   if (!pot) {
@@ -173,11 +168,7 @@ if (
   currentStep.value = 1;
 }
 // prefill step 2
-if (targetAmout.value) {
+if (targetAmount.value) {
   enabledTargetAmount.value = true;
-}
-// go to step 3
-if (titleUrl.value) {
-  currentStep.value = 2;
 }
 </script>

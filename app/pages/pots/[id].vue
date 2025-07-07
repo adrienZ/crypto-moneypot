@@ -8,6 +8,7 @@ import {
 } from "#imports";
 import { ethers, TransactionResponse } from "ethers";
 import { computed, shallowRef } from "vue";
+import RichTextEditor from "~/components/RichTextEditor.vue";
 
 const route = useRoute("pots-id");
 const moneypotId = computed(() => route.params.id);
@@ -51,6 +52,7 @@ async function contribute() {
 <template>
   <div>
     <pre>{{ data }}</pre>
+    <RichTextEditor readonly :modelValue="data?.description" />
     <div v-if="currentWallet">
 <h3>Your wallets</h3>
       <ul>
@@ -62,6 +64,7 @@ async function contribute() {
             </fieldset>
           </li>
       </ul>
+
       <input type="number" inputmode="decimal" v-model="contributionAmout" />
       <button @click="contribute">send {{ contributionAmout ?? 0 }} ETH</button>
     </div>
