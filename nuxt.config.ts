@@ -9,6 +9,7 @@ export default defineNuxtConfig({
   imports: {
     // disable auto-import
     autoImport: false,
+    scan: false
   },
   components: {
     // disable auto-import

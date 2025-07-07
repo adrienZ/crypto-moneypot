@@ -4,11 +4,11 @@ import {
   useLazyFetch,
   useRequestHeaders,
   useRoute,
-  useWallet,
 } from "#imports";
 import { ethers, TransactionResponse } from "ethers";
 import { computed, shallowRef } from "vue";
 import RichTextEditor from "~/components/RichTextEditor.vue";
+import { useWallet } from "~/composables/useWallet";
 
 const route = useRoute("pots-id");
 const moneypotId = computed(() => route.params.id);

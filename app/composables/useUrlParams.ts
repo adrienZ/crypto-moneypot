@@ -1,7 +1,7 @@
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
-const useUrlParams = (key: string = 'q') => {
+export const useUrlParams = (key: string = 'q') => {
   const route = useRoute();
   const urlQuery = route.query?.[key]?.toString() || '';
   const searchQuery = ref(urlQuery);
@@ -16,5 +16,3 @@ const useUrlParams = (key: string = 'q') => {
 
   return searchQuery;
 };
-
-export default useUrlParams;

@@ -56,10 +56,10 @@ import { computed, ref, shallowRef } from "vue";
 import { navigateTo, useAsyncData } from "#app";
 import { UTimeline, UCard, USwitch } from "#components";
 import type { TimelineItem } from "@nuxt/ui";
-import { useUrlParams } from "#imports";
 import * as z from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui";
 import RichTextEditor from "~/components/RichTextEditor.vue";
+import { useUrlParams } from "~/composables/useUrlParams";
 
 // #region url params
 // step 1

@@ -44,7 +44,8 @@
 
 <script lang="ts" setup>
 import { NuxtLink, UButton } from "#components";
-import { useAuth, useWallet } from "#imports";
+import { useAuth } from "~/composables/useAuth";
+import { useWallet } from "~/composables/useWallet";
 
 const { session, client, fetchSession } = useAuth();
 const signIn = async () => {

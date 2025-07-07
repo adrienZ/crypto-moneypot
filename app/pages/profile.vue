@@ -34,7 +34,8 @@
 
 <script setup lang="ts">
 import { NuxtLink } from "#components";
-import { useAsyncData, useRequestHeaders, useWallet } from "#imports";
+import { useAsyncData, useRequestHeaders } from "#imports";
+import { useWallet } from "~/composables/useWallet";
 
 // headers for cookies and session
 const headers = useRequestHeaders();
