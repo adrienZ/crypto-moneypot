@@ -5,7 +5,7 @@
   "packageManager": "pnpm@10.4.1",
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "concurrently 'nuxt dev --host 0.0.0.0' 'pnpm hardhat:node'",
     "hardhat:node": "hardhat node",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
@@ -36,6 +36,7 @@
     "@nomicfoundation/hardhat-toolbox": "^3.0.0",
     "@nuxt/devtools": "^2.6.2",
     "@nuxt/devtools-kit": "^2.6.0",
+    "concurrently": "^9.2.0",
     "drizzle-kit": "^0.30.4",
     "hardhat": "^2.23.0",
     "pg": "^8.13.3",

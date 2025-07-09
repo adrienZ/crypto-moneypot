@@ -1,12 +1,12 @@
 <template>
   <UCard>
-    <img class="aspect-video w-full" :src="image" />
+    <NuxtImg class="aspect-video w-full object-cover" :src="image" />
     {{ title }}
   </UCard>
 </template>
 
 <script setup lang="ts">
-import { UCard } from "#components";
+import { UCard, NuxtImg } from "#components";
 interface Props {
   title: string;
   image: string;
