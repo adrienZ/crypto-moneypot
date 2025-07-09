@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { NuxtImg } from "#components";
 import {
   useAsyncData,
   useLazyFetch,
@@ -6,14 +7,14 @@ import {
   useRoute,
 } from "#imports";
 import { ethers, TransactionResponse } from "ethers";
-import { computed, shallowRef } from "vue";
+import { computed, shallowRef, watchEffect } from "vue";
 import RichTextEditor from "~/components/RichTextEditor.vue";
 import { useWallet } from "~/composables/useWallet";
 
 const route = useRoute("pots-id");
 const moneypotId = computed(() => route.params.id);
 
-const { data } = useAsyncData(moneypotId, () =>
+const { data, status } = useAsyncData(moneypotId, () =>
   $fetch(`/api/pots/${moneypotId.value as "string to have type inference"}`),
 );
 
@@ -50,9 +51,19 @@ async function contribute() {
 </script>
 
 <template>
-  <div>
-    <pre>{{ data }}</pre>
-    <RichTextEditor readonly :modelValue="data?.description" />
+  <div v-if="data">
+    <main class="flex max-w-5xl gap-8 mx-auto">
+      <div class="w-3/4"> 
+        <NuxtImg :src="data?.coverImage" />
+        <RichTextEditor readonly :modelValue="data.description" />
+      </div>
+
+      <div class="w-1/4">
+        <div>{{ data }}</div>
+      </div>
+
+    </main>
+
     <div v-if="currentWallet">
 <h3>Your wallets</h3>
       <ul>
@@ -69,4 +80,5 @@ async function contribute() {
       <button @click="contribute">send {{ contributionAmout ?? 0 }} ETH</button>
     </div>
   </div>
+  <div v-else>something went wrong</div>
 </template>

@@ -41,12 +41,7 @@
         </LazyClientOnly>
 
         <UFormField label="Image" name="coverImage">
-          <input
-            type="file"
-            accept="image/png,image/jpeg,image/jpg"
-            @change="handleFileChange"
-          />
-          <div v-if="uploadStatus === 'pending'" class="text-sm mt-1">Uploading...</div>
+          <ImagePicker v-model="selectedFile" class="w-md" />
           <ul class="text-sm mt-1">
             <li>• Your image must be smaller than 10 MB.</li>
             <li>• Accepted formats are .jpg, .jpeg and .png</li>
@@ -75,6 +70,7 @@ import * as z from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui";
 import RichTextEditor from "~/components/RichTextEditor.vue";
 import { useUrlParams } from "~/composables/useUrlParams";
+import ImagePicker from "~/components/ImagePicker.vue";
 
 // #region url params
 // step 1
@@ -83,14 +79,7 @@ const categoryId = useUrlParams("categoryId");
 const titleUrl = useUrlParams("title");
 const targetAmount = useUrlParams("targetAmount");
 const description = shallowRef("");
-const selectedFile = shallowRef<File | null>(null);
-const coverImagePath = shallowRef<string | null>(null);
-const {
-  execute: uploadImage,
-  status: uploadStatus,
-  data: uploadedData,
-} = useLazyFetch("/api/upload", { method: "POST", immediate: false });
-// #endregion
+const selectedFile = shallowRef<File>();
 
 // #region steps form state
 const enabledTargetAmount = shallowRef(false);
@@ -99,16 +88,64 @@ const formStep2 = computed(() => ({
   targetAmount: Number(targetAmount.value) * 1000,
   description: description.value,
   categoryId: categoryId.value,
-  coverImage: coverImagePath.value || "",
+  coverImage: selectedFile.value,
 }));
+
+const formStep2FormData = computed(() => {
+  const formData = new FormData();
+  const imageFile = selectedFile.value;
+
+  const formValues = {
+    title: titleUrl.value,
+    targetAmount: String(Number(targetAmount.value) * 1000), // formData can't use numbers
+    description: description.value,
+    categoryId: categoryId.value,
+  };
+
+  Object.entries(formValues).forEach(([key, value]) => {
+    formData.append(key, value);
+  });
+
+  // handle undefined
+  if (imageFile) {
+    formData.append("coverImage", imageFile);
+  }
+
+  return formData;
+});
 // #endregion
+
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png"];
+const MIN_WIDTH = 350;
+const MIN_HEIGHT = 255;
 
 const schema = z.object({
   title: z.string().min(1),
   targetAmount: z.number().optional(),
   description: z.string().min(1),
   categoryId: z.string().min(1),
-  coverImage: z.string().min(1),
+  coverImage: z
+    .instanceof(File)
+    .refine(
+      (file) => file.size <= MAX_FILE_SIZE,
+      "Image must be smaller than 10MB",
+    )
+    .refine(
+      (file) => ACCEPTED_IMAGE_TYPES.includes(file.type),
+      "Accepted formats are .jpg, .jpeg, and .png",
+    )
+    .refine(
+      async (file) => {
+        const imageBitmap = await createImageBitmap(file);
+        return (
+          imageBitmap.width >= MIN_WIDTH && imageBitmap.height >= MIN_HEIGHT
+        );
+      },
+      {
+        message: `Image must be at least ${MIN_WIDTH}px wide and ${MIN_HEIGHT}px high`,
+      },
+    ),
 });
 
 type Schema = z.output<typeof schema>;
@@ -171,34 +208,10 @@ function handleCategorySelection(selectedCategoryId: string) {
   currentStep.value = 1;
 }
 
-async function handleFileChange(event: Event) {
-  const input = event.target as HTMLInputElement;
-  if (!input.files || input.files.length === 0) return;
-  const file = input.files[0];
-  const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
-  if (!allowedTypes.includes(file.type) || file.size > 10 * 1024 * 1024) {
-    alert("Invalid image");
-    return;
-  }
-  const img = new Image();
-  img.src = URL.createObjectURL(file);
-  await new Promise<void>((resolve) => {
-    img.onload = () => resolve();
-  });
-  if (img.width < 350 || img.height < 255) {
-    alert("Image too small");
-    return;
-  }
-
-  selectedFile.value = file;
-  await uploadImage({ body: file, headers: { "Content-Type": file.type } });
-  coverImagePath.value = uploadedData.value?.url || null;
-}
-
 const createPot = async () => {
   const { pot } = await $fetch("/api/pots/create", {
     method: "POST",
-    body: formStep2.value,
+    body: formStep2FormData.value,
   });
 
   if (!pot) {

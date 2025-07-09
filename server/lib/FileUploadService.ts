@@ -12,7 +12,7 @@ class FileUploadService {
   private basePath: string;
 
   constructor() {
-    this.basePath = path.resolve(__dirname, "../.data/uploads");
+    this.basePath = "./public/uploads"
     this.storage = createStorage({
       driver: fsDriver({ base: this.basePath }),
     });

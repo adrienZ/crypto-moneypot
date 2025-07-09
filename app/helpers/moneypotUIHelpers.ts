@@ -5,7 +5,7 @@ export function getUIPropsFromMoneypot(
   moneypot: typeof pots.$inferSelect,
 ): MoneypotCardProps {
   return {
-    image: moneypot.coverImage || "",
+    image: `/uploads/` + moneypot.coverImage,
     title: moneypot.title,
   };
 }
