@@ -26,9 +26,15 @@ export default defineEventHandler(async (event) => {
   }, 0);
 
   const amount = ethers.formatEther(BigInt(rawAmount));
+  const coverImage = `/uploads/${moneypot?.coverImage}`
+
+  if (!moneypot) {
+    return undefined;
+  }
 
   return {
     ...moneypot,
     amount,
+    coverImage
   };
 });

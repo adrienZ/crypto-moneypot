@@ -20,7 +20,7 @@ export const pots = pgTable("pots", {
     .references(() => potCategory.id)
     .notNull(),
   targetAmount: bigint("target_amount", { mode: "bigint" }),
-  coverImage: text("cover_image"),
+  coverImage: text("cover_image").notNull(),
   description: text("description").notNull(),
   walletAddress: text("wallet_address").notNull(),
   walletPrivateKey: text("wallet_private_key").notNull(),
