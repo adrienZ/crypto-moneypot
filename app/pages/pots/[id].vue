@@ -53,8 +53,8 @@ async function contribute() {
 <template>
   <div v-if="data">
     <main class="flex max-w-5xl gap-8 mx-auto">
-      <div class="w-3/4"> 
-        <NuxtImg :src="data?.coverImage" />
+      <div class="w-3/4">
+        <NuxtImg format="webp" :src="data?.coverImage" />
         <RichTextEditor readonly :modelValue="data.description" />
       </div>
 
@@ -65,15 +65,15 @@ async function contribute() {
     </main>
 
     <div v-if="currentWallet">
-<h3>Your wallets</h3>
+      <h3>Your wallets</h3>
       <ul>
-          <li v-for="account in currentWallet.accounts">
-            <fieldset>
-              <legend>{{ currentWallet.label }}<img width="16" :src="currentWallet.icon" /></legend>
-              <div>{{ account.address }}</div>
-              <div>{{ account.balance }}</div>
-            </fieldset>
-          </li>
+        <li v-for="account in currentWallet.accounts">
+          <fieldset>
+            <legend>{{ currentWallet.label }}<img width="16" :src="currentWallet.icon" /></legend>
+            <div>{{ account.address }}</div>
+            <div>{{ account.balance }}</div>
+          </fieldset>
+        </li>
       </ul>
 
       <input type="number" inputmode="decimal" v-model="contributionAmout" />

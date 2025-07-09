@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
   const offset = (page - 1) * pageSize;
 
   // Get total count for pagination
-  const total = await db.select({ value: count() }).from(pots);
+  const total = await db.select({ count: count() }).from(pots);
 
   // Fetch paginated pots
   const items = await db.query.pots.findMany({
@@ -23,14 +23,14 @@ export default defineEventHandler(async (event) => {
   });
 
   const itemsWithCoverImage = items.map((item) => ({
-  ...item,
-  coverImage: fileUploadService.getUrl(item.coverImage),
-}));
+    ...item,
+    coverImage: fileUploadService.getUrl(item.coverImage),
+  }));
 
   return {
     page,
     pageSize,
-    total,
+    total: total.reduce((acc, curr) => acc + (curr.count || 0), 0),
     pots: itemsWithCoverImage,
   };
 });

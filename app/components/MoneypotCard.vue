@@ -1,6 +1,6 @@
 <template>
-  <UCard>
-    <NuxtImg class="aspect-video w-full object-cover" :src="image" />
+  <UCard variant="soft">
+    <NuxtImg class="aspect-video w-full object-cover" :src="image" format="webp" width="320" />
     {{ title }}
   </UCard>
 </template>

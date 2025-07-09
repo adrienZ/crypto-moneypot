@@ -6,18 +6,17 @@ import { db } from "../database/db";
 
 export default defineNitroPlugin(async () => {
   if (import.meta.dev) {
+    await migrate(db, {
+      migrationsFolder: resolve(
+        fileURLToPath(import.meta.url),
+        "../../../",
+        "./server/database/migrations",
+      ),
+    });
     try {
       await db.query.pots.findFirst();
     } catch {
-      await migrate(db, {
-        migrationsFolder: resolve(
-          fileURLToPath(import.meta.url),
-          "../../../",
-          "./server/database/migrations"
-        )
-      });
-      runTask("db:seed")
+      runTask("db:seed");
     }
   }
 });
-

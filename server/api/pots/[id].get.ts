@@ -37,6 +37,6 @@ export default defineEventHandler(async (event) => {
   return {
     ...moneypot,
     amount,
-    coverImage
+    coverImage,
   };
 });

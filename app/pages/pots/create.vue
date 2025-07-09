@@ -37,7 +37,9 @@
         </div>
 
         <LazyClientOnly>
-          <RichTextEditor v-model="description" />
+          <div>
+            <RichTextEditor v-model="description" />
+          </div>
         </LazyClientOnly>
 
         <UFormField label="Image" name="coverImage">

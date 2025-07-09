@@ -6,23 +6,20 @@
       </div>
 
       <div class="flex gap-2 ml-auto mr-8">
-        <UButton size="md" color="secondary" to="/pots/list">Explore Moneypots</UButton>
+        <UButton size="md" color="secondary" to="/explore">Explore Moneypots</UButton>
         <UButton size="md" color="primary" to="/pots/create">Create Moneypot</UButton>
       </div>
 
       <div v-if="session && user">
-        <UDropdownMenu
-          :items="items"
-          :ui="{
-            content: 'w-48'
-          }"
-        >
-        <UAvatarGroup>
-          <UAvatar :src="user.image ?? undefined" :alt="user.name" />
+        <UDropdownMenu :items="items" :ui="{
+          content: 'w-48'
+        }">
+          <UAvatarGroup>
+            <UAvatar :src="user.image ?? undefined" :alt="user.name" />
 
-          <UAvatar v-if="!currentWallet" icon="i-lucide-plus" />
-          <UAvatar v-else :src="currentWallet.icon" />
-        </UAvatarGroup>
+            <UAvatar v-if="!currentWallet" icon="i-lucide-plus" />
+            <UAvatar v-else :src="currentWallet.icon" />
+          </UAvatarGroup>
         </UDropdownMenu>
       </div>
 

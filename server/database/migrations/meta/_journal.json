@@ -64,6 +64,13 @@
       "when": 1752080916810,
       "tag": "0008_massive_retro_girl",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1752100235827,
+      "tag": "0009_talented_penance",
+      "breakpoints": true
     }
   ]
 }
