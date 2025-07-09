@@ -8,6 +8,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // In-memory Postgres
 const client = new PGlite({
-  dataDir: path.resolve(__dirname, "../../.data"),
+  dataDir: path.resolve(__dirname, "../../.data/pglite"),
 });
 export const db = drizzle({ client, schema, logger: true });

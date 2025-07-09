@@ -1,13 +1,20 @@
-import { pgTable, serial, integer, text, bigint, uuid } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  serial,
+  integer,
+  text,
+  bigint,
+  uuid,
+} from "drizzle-orm/pg-core";
 import { user } from "./auth-schemas";
 import { defaultDatesColumns } from "./schema-utils";
 
-const type = [ "consumer", "charity"] as const
+const type = ["consumer", "charity"] as const;
 export const potCategory = pgTable("pot_category", {
   id: uuid("id").primaryKey(),
   type: text("type", { enum: type }).notNull(),
   slug: text("slug").notNull(),
-  ...defaultDatesColumns
+  ...defaultDatesColumns,
 });
 
 export const pots = pgTable("pots", {
@@ -19,12 +26,12 @@ export const pots = pgTable("pots", {
   categoryId: uuid("category_id")
     .references(() => potCategory.id)
     .notNull(),
-  targetAmount: bigint("target_amount", { mode: "bigint" }),
+  targetAmount: bigint("target_amount", { mode: "number" }),
   coverImage: text("cover_image").notNull(),
   description: text("description").notNull(),
   walletAddress: text("wallet_address").notNull(),
   walletPrivateKey: text("wallet_private_key").notNull(),
-  ...defaultDatesColumns
+  ...defaultDatesColumns,
 });
 
 export const contributions = pgTable("contributions", {
@@ -39,5 +46,5 @@ export const contributions = pgTable("contributions", {
   to: text("to").notNull(),
   amount: text("amount").notNull(),
   txHash: text("tx_hash").notNull(),
-  ...defaultDatesColumns
+  ...defaultDatesColumns,
 });

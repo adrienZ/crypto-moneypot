@@ -19,16 +19,21 @@ const routeSchema = z.object({
   targetAmount: z.coerce.number().optional(),
   coverImage: z
     .instanceof(File)
-    .refine((file) => file.size <= MAX_FILE_SIZE, "Image must be smaller than 10MB")
-    .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file.type), "Accepted formats are .jpg, .jpeg, and .png")
+    .refine(
+      (file) => file.size <= MAX_FILE_SIZE,
+      "Image must be smaller than 10MB",
+    )
+    .refine(
+      (file) => ACCEPTED_IMAGE_TYPES.includes(file.type),
+      "Accepted formats are .jpg, .jpeg, and .png",
+    ),
 });
 
 export default defineEventHandler(async (event) => {
   const formData = await readFormData(event);
-  
-  const { title, categoryId, description, targetAmount, coverImage } = routeSchema.parse(
-    Object.fromEntries(formData),
-  );
+
+  const { title, categoryId, description, targetAmount, coverImage } =
+    routeSchema.parse(Object.fromEntries(formData));
 
   const session = await auth.api.getSession({
     headers: event.headers,
@@ -39,10 +44,10 @@ export default defineEventHandler(async (event) => {
 
   const wallet = Wallet.createRandom(blockchainService.provider);
 
-  const arrayBuffer = await coverImage.arrayBuffer()
+  const arrayBuffer = await coverImage.arrayBuffer();
   const imageKey = await fileUploadService.save(
     `${coverImage.name}`,
-    Buffer.from(arrayBuffer)
+    Buffer.from(arrayBuffer),
   );
 
   const [pot] = await db
@@ -51,7 +56,7 @@ export default defineEventHandler(async (event) => {
       title,
       categoryId,
       description,
-      targetAmount: targetAmount ? BigInt(targetAmount) : undefined,
+      targetAmount: targetAmount ? targetAmount : undefined,
       creatorId: session.user.id,
       walletAddress: wallet.address,
       walletPrivateKey: wallet.privateKey,

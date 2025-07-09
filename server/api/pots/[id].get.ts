@@ -1,6 +1,7 @@
 import { defineEventHandler, readBody, createError } from "h3";
 import { db } from "../../database/db";
 import { ethers } from "ethers";
+import fileUploadService from "~~/server/lib/FileUploadService";
 
 export default defineEventHandler(async (event) => {
   const moneypotId = event.context.params?.id;
@@ -26,11 +27,12 @@ export default defineEventHandler(async (event) => {
   }, 0);
 
   const amount = ethers.formatEther(BigInt(rawAmount));
-  const coverImage = `/uploads/${moneypot?.coverImage}`
 
   if (!moneypot) {
     return undefined;
   }
+
+  const coverImage = fileUploadService.getUrl(moneypot.coverImage);
 
   return {
     ...moneypot,

@@ -10,6 +10,6 @@ export default defineConfig({
   strict: true,
   dbCredentials: {
     // pglite specific
-    url: path.resolve(__dirname, "./.data"),
+    url: path.resolve(__dirname, "./.data/pglite"),
   },
 });

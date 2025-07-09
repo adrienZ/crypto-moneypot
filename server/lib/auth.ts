@@ -6,7 +6,7 @@ import { db } from "../database/db";
 import * as authSchemas from "../database/schemas/auth-schemas";
 
 // const storage = createStorage({
-//     driver: fsDriver({ base: "./.data" }),
+//     driver: fsDriver({ base: "./.data/pglite" }),
 // });
 
 const drizzleDbAdapter = drizzleAdapter(db, {

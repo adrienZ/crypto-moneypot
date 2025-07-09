@@ -8,5 +8,5 @@ export const wallets = pgTable("wallets", {
     .notNull()
     .references(() => user.id),
   address: text("address").notNull(),
-  ...defaultDatesColumns
+  ...defaultDatesColumns,
 });

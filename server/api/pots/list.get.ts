@@ -4,6 +4,7 @@ import { pots } from "../../database/schemas";
 
 import { ethers } from "ethers";
 import { count } from "drizzle-orm";
+import fileUploadService from "~~/server/lib/FileUploadService";
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
@@ -21,10 +22,15 @@ export default defineEventHandler(async (event) => {
     orderBy: (pots, { desc }) => [desc(pots.createdAt)],
   });
 
+  const itemsWithCoverImage = items.map((item) => ({
+  ...item,
+  coverImage: fileUploadService.getUrl(item.coverImage),
+}));
+
   return {
     page,
     pageSize,
     total,
-    pots: items,
+    pots: itemsWithCoverImage,
   };
 });

@@ -4,15 +4,8 @@
 
 <script setup lang="ts">
 import type Quill from "quill";
-import {
-  onMounted,
-  onUnmounted,
-  useTemplateRef,
-  ref,
-  watch,
-  defineEmits,
-  defineProps,
-} from "vue";
+import { onMounted, onUnmounted, useTemplateRef, ref, watch } from "vue";
+import "quill/dist/quill.snow.css";
 
 const props = defineProps<{
   modelValue: string;

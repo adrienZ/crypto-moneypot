@@ -1,18 +1,14 @@
 import { createStorage } from "unstorage";
 import fsDriver from "unstorage/drivers/fs";
-import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { randomUUID } from "uncrypto";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 class FileUploadService {
   private storage;
   private basePath: string;
 
   constructor() {
-    this.basePath = "./public/uploads"
+    this.basePath = "./public/uploads";
     this.storage = createStorage({
       driver: fsDriver({ base: this.basePath }),
     });
@@ -25,8 +21,17 @@ class FileUploadService {
     return key;
   }
 
-  getUrl(key: string) {
-    return `/uploads/${key}`;
+  getUrl(maybeFileNameOrUrl: string) {
+    try {
+      const url = new URL(maybeFileNameOrUrl);
+      if (url.protocol === "http:" || url.protocol === "https:") {
+        return maybeFileNameOrUrl;
+      }
+    } catch {
+      // Not a valid URL, continue
+    }
+
+    return `/uploads/${maybeFileNameOrUrl}`;
   }
 
   getPath(key: string) {

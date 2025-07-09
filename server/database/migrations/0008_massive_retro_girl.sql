@@ -1,0 +1,1 @@
+ALTER TABLE "pots" ALTER COLUMN "cover_image" SET NOT NULL;

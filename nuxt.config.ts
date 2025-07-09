@@ -2,14 +2,19 @@
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
-  modules: ["@nuxt/devtools", "@nuxt/ui", "./app/modules/drizzle-studio", "@nuxt/image"],
+  modules: [
+    "@nuxt/ui",
+    "./app/modules/drizzle-studio",
+    "@nuxt/devtools",
+    "@nuxt/image",
+  ],
   future: {
     compatibilityVersion: 4,
   },
   imports: {
     // disable auto-import
     autoImport: false,
-    scan: false
+    scan: false,
   },
   components: {
     // disable auto-import
@@ -23,6 +28,7 @@ export default defineNuxtConfig({
   },
   nitro: {
     experimental: {
+      tasks: true,
       openAPI: true,
     },
   },
