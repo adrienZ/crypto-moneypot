@@ -1,20 +1,15 @@
 <template>
   <label :class="[ratio, !preview ? 'border' : '', 'rounded-md  block relative']" tabindex="0">
 
-    <img v-if="preview" class="rounded-md max-w-full max-h-full" :src="preview" />
+    <img v-if="preview" class="rounded-md w-full h-full object-cover" :src="preview" />
 
     <div v-else></div>
 
-    <input
-      class="hidden"
-      ref="input"
-      type="file"
-      accept="image/png,image/jpeg,image/jpg"
-      @change="handleFileChange"
-    />
+    <input class="hidden" ref="input" type="file" accept="image/png,image/jpeg,image/jpg" @change="handleFileChange" />
 
 
-    <button role="button" class="cta absolute bottom-0 bg-amber-500 p-4 rounded-3xl w-1/2" @click="inputEl?.click()">set image</button>
+    <button type="button" class="cta absolute bottom-0 bg-amber-500 p-4 rounded-3xl w-1/2" @click="inputEl?.click()">set
+      image</button>
   </label>
 </template>
 
@@ -58,6 +53,4 @@ function handleFileChange(event: Event) {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -54,7 +54,8 @@ async function contribute() {
   <div v-if="data">
     <main class="flex max-w-5xl gap-8 mx-auto">
       <div class="w-3/4">
-        <NuxtImg format="webp" :src="data?.coverImage" />
+        <NuxtImg class="aspect-16/9 object-cover w-full" format="webp" :src="data?.coverImage"
+          :placeholder="[100, 100, 50, 5]" />
         <RichTextEditor readonly :modelValue="data.description" />
       </div>
 

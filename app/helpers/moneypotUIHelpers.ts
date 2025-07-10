@@ -1,4 +1,4 @@
-import { pots } from "~~/server/database/schemas";
+import type { pots } from "~~/server/database/schemas";
 import type { MoneypotCardProps } from "~/components/MoneypotCard.vue";
 
 export function getUIPropsFromMoneypot(

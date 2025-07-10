@@ -8,6 +8,9 @@ export default defineNuxtConfig({
     "@nuxt/devtools",
     "@nuxt/image",
   ],
+  css: [
+    `~/assets/style/main.css`
+  ],
   future: {
     compatibilityVersion: 4,
   },
