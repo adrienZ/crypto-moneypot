@@ -26,8 +26,6 @@ export default defineEventHandler(async (event) => {
     return total + parseInt(contribution.amount);
   }, 0);
 
-  const amount = ethers.formatEther(BigInt(rawAmount));
-
   if (!moneypot) {
     return undefined;
   }
@@ -36,7 +34,7 @@ export default defineEventHandler(async (event) => {
 
   return {
     ...moneypot,
-    amount,
+    amount: rawAmount,
     coverImage,
   };
 });

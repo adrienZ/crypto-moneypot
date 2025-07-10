@@ -71,6 +71,13 @@
       "when": 1752100235827,
       "tag": "0009_talented_penance",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1752163482476,
+      "tag": "0010_fair_firestar",
+      "breakpoints": true
     }
   ]
 }

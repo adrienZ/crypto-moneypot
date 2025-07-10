@@ -7,5 +7,6 @@ export function getUIPropsFromMoneypot(
   return {
     image: moneypot.coverImage,
     title: moneypot.title,
+    targetAmount: moneypot.targetAmount,
   };
 }

@@ -19,14 +19,14 @@
     <div class="relative bg-default">
       <div class="bg-slate-700 p-6" v-if="recentMoneypots">
         <ul class="grid grid-cols-5 gap-4">
-          <li v-for="moneypot in recentMoneypots.pots" :key="moneypot.id">
+          <li class="h-full" v-for="moneypot in recentMoneypots.pots" :key="moneypot.id">
             <NuxtLink :to="{
               name: 'pots-id',
               params: {
                 id: moneypot.id
               }
-            }">
-              <MoneypotCard v-bind="getUIPropsFromMoneypot(moneypot)"></MoneypotCard>
+            }" class="h-full">
+              <MoneypotCard class="h-full" v-bind="getUIPropsFromMoneypot(moneypot)"></MoneypotCard>
             </NuxtLink>
           </li>
         </ul>

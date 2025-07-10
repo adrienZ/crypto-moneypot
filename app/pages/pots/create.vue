@@ -7,7 +7,7 @@
       <div v-if="groupedMoneyPotCategories">
         <div class="mt-4" v-for="categoryType in moneypotCategoriesTypes" :key="`category-type-${categoryType}`">
           <h3 class="text-2xl font-bold mb-2">{{ categoryType }}</h3>
-          <div class="grid grid-cols-3 gap-4">
+          <div class="grid grid-cols-5 gap-6">
             <UCard v-for="category in groupedMoneyPotCategories[categoryType]" variant="solid"
               @click="handleCategorySelection(category.id)">
               <img
@@ -37,9 +37,9 @@
         </div>
 
         <LazyClientOnly>
-          <div>
+          <UFormField label="description" name="description">
             <RichTextEditor v-model="description" />
-          </div>
+          </UFormField>
         </LazyClientOnly>
 
         <UFormField label="Image" name="coverImage">
@@ -73,6 +73,7 @@ import type { FormSubmitEvent } from "@nuxt/ui";
 import RichTextEditor from "~/components/RichTextEditor.vue";
 import { useUrlParams } from "~/composables/useUrlParams";
 import ImagePicker from "~/components/ImagePicker.vue";
+import { ethers } from "ethers";
 
 // #region url params
 // step 1
@@ -85,9 +86,12 @@ const selectedFile = shallowRef<File>();
 
 // #region steps form state
 const enabledTargetAmount = shallowRef(false);
+const converter = {
+  ether: (value: string) => ethers.parseEther(value),
+};
 const formStep2 = computed(() => ({
   title: titleUrl.value,
-  targetAmount: Number(targetAmount.value) * 1000,
+  targetAmount: targetAmount.value ? Number(targetAmount.value) : undefined,
   description: description.value,
   categoryId: categoryId.value,
   coverImage: selectedFile.value,
@@ -99,7 +103,11 @@ const formStep2FormData = computed(() => {
 
   const formValues = {
     title: titleUrl.value,
-    targetAmount: String(Number(targetAmount.value) * 1000), // formData can't use numbers
+    targetAmount: targetAmount.value
+      ? String(
+          converter.ether(String(targetAmount.value)),
+        ) /* formData can't use numbers */
+      : "",
     description: description.value,
     categoryId: categoryId.value,
   };

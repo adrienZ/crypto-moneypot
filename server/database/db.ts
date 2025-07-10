@@ -10,4 +10,4 @@ const __dirname = path.dirname(__filename);
 const client = new PGlite({
   dataDir: path.resolve(__dirname, "../../.data/pglite"),
 });
-export const db = drizzle({ client, schema, logger: true });
+export const db = drizzle({ client, schema, logger: false });

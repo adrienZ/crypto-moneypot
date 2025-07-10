@@ -5,7 +5,7 @@
   "packageManager": "pnpm@10.4.1",
   "scripts": {
     "build": "nuxt build",
-    "dev": "concurrently 'nuxt dev --host 0.0.0.0' 'pnpm hardhat:node'",
+    "dev": "concurrently 'nuxt dev --host 0.0.0.0 --inspect=9229' 'pnpm hardhat:node'",
     "hardhat:node": "hardhat node",
     "generate": "nuxt generate",
     "preview": "nuxt preview",

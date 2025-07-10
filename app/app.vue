@@ -1,27 +1,25 @@
 <template>
-  <div>
+  <div class="h-full flex flex-col">
     <NuxtRouteAnnouncer />
-    <TheHeader />
+    <UApp>
+      <TheHeader />
 
-    <NuxtPage class="max-w-5xl mx-auto" />
-    <DevOnly>
-      <div class="max-w-5xl mx-auto">
-        <button @click="triggerDevTools">
-          Open DevTools
-        </button>
-      </div>
-    </DevOnly>
+      <NuxtPage class="max-w-5xl mx-auto grow" />
+      <TheFooter />
+    </UApp>
   </div>
 </template>
 
-<script setup lang="ts">
-import { NuxtRouteAnnouncer, NuxtPage } from "#components";
-import TheHeader from "./components/TheHeader.vue";
-
-function triggerDevTools() {
-  import("#imports").then(({ useNuxtDevTools }) => {
-    const devtoolsClient = useNuxtDevTools();
-    devtoolsClient.value?.devtools.open();
-  });
+<style>
+html,
+body,
+#__nuxt {
+  min-height: 100%;
 }
+</style>
+
+<script setup lang="ts">
+import { NuxtRouteAnnouncer, NuxtPage, UApp } from "#components";
+import TheHeader from "./components/TheHeader.vue";
+import TheFooter from "./components/TheFooter.vue";
 </script>

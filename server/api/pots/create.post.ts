@@ -16,7 +16,12 @@ const routeSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
   categoryId: z.string().min(1),
-  targetAmount: z.coerce.number().optional(),
+  targetAmount: z
+    .string()
+    .optional()
+    .refine((val) => val === undefined || !isNaN(Number(val)), {
+      message: "targetAmount must be a valid numeric string",
+    }),
   coverImage: z
     .instanceof(File)
     .refine(
@@ -38,6 +43,9 @@ export default defineEventHandler(async (event) => {
   const session = await auth.api.getSession({
     headers: event.headers,
   });
+
+  console.log(targetAmount);
+
   if (!session) {
     throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
   }
@@ -56,7 +64,7 @@ export default defineEventHandler(async (event) => {
       title,
       categoryId,
       description,
-      targetAmount: targetAmount ? targetAmount : undefined,
+      targetAmount: targetAmount,
       creatorId: session.user.id,
       walletAddress: wallet.address,
       walletPrivateKey: wallet.privateKey,
