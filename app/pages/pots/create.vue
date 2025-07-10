@@ -7,7 +7,7 @@
       <div v-if="groupedMoneyPotCategories">
         <div class="mt-4" v-for="categoryType in moneypotCategoriesTypes" :key="`category-type-${categoryType}`">
           <h3 class="text-2xl font-bold mb-2">{{ categoryType }}</h3>
-          <div class="grid grid-cols-5 gap-6">
+          <div class="grid grid-cols-6 gap-6">
             <UCard v-for="category in groupedMoneyPotCategories[categoryType]" variant="solid"
               @click="handleCategorySelection(category.id)">
               <img

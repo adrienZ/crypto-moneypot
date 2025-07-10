@@ -58,7 +58,8 @@ const { data, status } = useAsyncData(moneypotId, () =>
       </div>
 
       <UCard variant="subtle" class="w-3/8">
-        <div>{{ data }}</div>
+        <h2 class="text-2xl font-bold">{{ data.title }}</h2>
+        <details>{{ data }}</details>
       </UCard>
 
     </main>
