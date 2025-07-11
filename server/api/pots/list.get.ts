@@ -2,8 +2,7 @@ import { defineEventHandler, getQuery } from "h3";
 import { db } from "../../database/db";
 import { pots } from "../../database/schemas";
 
-import { ethers } from "ethers";
-import { count } from "drizzle-orm";
+import { count, eq, ilike, and } from "drizzle-orm";
 import fileUploadService from "~~/server/lib/FileUploadService";
 
 export default defineEventHandler(async (event) => {
@@ -12,14 +11,36 @@ export default defineEventHandler(async (event) => {
   const pageSize = Number(query.pageSize) > 0 ? Number(query.pageSize) : 10;
   const offset = (page - 1) * pageSize;
 
+  const search = typeof query.q === "string" ? query.q : undefined;
+  const category = typeof query.category === "string" ? query.category : undefined;
+
+  const whereFilter = (table: typeof pots) => {
+    if (search && category) {
+      return and(ilike(table.title, `%${search}%`), eq(table.categoryId, category));
+    }
+    if (search) {
+      return ilike(table.title, `%${search}%`);
+    }
+    if (category) {
+      return eq(table.categoryId, category);
+    }
+    return undefined;
+  };
+
   // Get total count for pagination
-  const total = await db.select({ count: count() }).from(pots);
+  const total = await db
+    .select({ count: count() })
+    .from(pots)
+    .where((table) => whereFilter(table));
 
   // Fetch paginated pots
   const items = await db.query.pots.findMany({
     limit: pageSize,
     offset,
     orderBy: (pots, { desc }) => [desc(pots.createdAt)],
+    where(pots) {
+      return whereFilter(pots);
+    },
   });
 
   const itemsWithCoverImage = items.map((item) => ({
