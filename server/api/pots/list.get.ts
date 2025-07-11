@@ -11,8 +11,12 @@ export default defineEventHandler(async (event) => {
   const pageSize = Number(query.pageSize) > 0 ? Number(query.pageSize) : 10;
   const offset = (page - 1) * pageSize;
 
-  const search = typeof query.q === "string" ? query.q : undefined;
-  const category = typeof query.category === "string" ? query.category : undefined;
+  const search =
+    typeof query.q === "string" && query.q !== "" ? query.q : undefined;
+  const category =
+    typeof query.category === "string" && query.category !== ""
+      ? query.category
+      : undefined;
 
   const whereFilter = () => {
     if (search && category) {
@@ -28,12 +32,10 @@ export default defineEventHandler(async (event) => {
   };
 
   // Get total count for pagination
-  let totalQuery = db.select({ count: count() }).from(pots);
   const filter = whereFilter();
-  if (filter) {
-    totalQuery = totalQuery.where(filter);
-  }
-  const total = await totalQuery;
+  const total = await (filter
+    ? db.select({ count: count() }).from(pots).where(filter)
+    : db.select({ count: count() }).from(pots));
 
   // Fetch paginated pots
   const items = await db.query.pots.findMany({

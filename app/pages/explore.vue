@@ -1,15 +1,16 @@
 <template>
   <div>
-    <div class="flex gap-4">
-      <UInput v-model="search" placeholder="Search" class="w-64" />
+    <div class="flex items-end gap-4">
+      <UInput v-model="localSearch" placeholder="Search" class="w-64" />
       <USelect
-        v-model="category"
+        v-model="localCategory"
         :options="categoryOptions"
         option-attribute="label"
         value-attribute="value"
         placeholder="Category"
         class="w-48"
       />
+      <UButton @click="applyFilters">Search</UButton>
     </div>
     <ul v-if="visibleMoneypots" class="grid grid-cols-5 gap-4 mt-8">
       <li v-for="moneypot in visibleMoneypots.pots" :key="moneypot.id">
@@ -37,7 +38,7 @@
 <script setup lang="ts">
 import { useAsyncData } from "#app";
 import { NuxtLink, UPagination, UInput, USelect } from "#components";
-import { computed, watch } from "vue";
+import { computed, watch, ref } from "vue";
 import MoneypotCard from "~/components/MoneypotCard.vue";
 import { useUrlParams } from "~/composables/useUrlParams";
 import { getUIPropsFromMoneypot } from "~/helpers/moneypotUIHelpers";
@@ -58,17 +59,34 @@ const paginationDedupeKey = computed(
 const search = useUrlParams("q");
 const category = useUrlParams("category");
 
+const localSearch = ref(search.value);
+const localCategory = ref(category.value);
+
+const applyFilters = () => {
+  search.value = localSearch.value;
+  category.value = localCategory.value;
+};
+
 const { data: categories } = await useAsyncData(
   "moneypot-categories",
   () => $fetch("/api/pots/categories"),
 );
 
-const categoryOptions = computed(() =>
-  categories.value?.map((c) => ({ label: c.slug, value: c.id })) ?? [],
-);
+const categoryOptions = computed(() => [
+  { label: "All", value: "" },
+  ...(categories.value?.map((c) => ({ label: c.slug, value: c.id })) ?? []),
+]);
 
 watch([search, category], () => {
   pageAsInt.value = 1;
+});
+
+watch(search, () => {
+  localSearch.value = search.value;
+});
+
+watch(category, () => {
+  localCategory.value = category.value;
 });
 
 const { data: visibleMoneypots } = useAsyncData(
