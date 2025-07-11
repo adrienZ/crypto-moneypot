@@ -14,33 +14,39 @@ export default defineEventHandler(async (event) => {
   const search = typeof query.q === "string" ? query.q : undefined;
   const category = typeof query.category === "string" ? query.category : undefined;
 
-  const whereFilter = (table: typeof pots) => {
+  const whereFilter = () => {
     if (search && category) {
-      return and(ilike(table.title, `%${search}%`), eq(table.categoryId, category));
+      return and(ilike(pots.title, `%${search}%`), eq(pots.categoryId, category));
     }
     if (search) {
-      return ilike(table.title, `%${search}%`);
+      return ilike(pots.title, `%${search}%`);
     }
     if (category) {
-      return eq(table.categoryId, category);
+      return eq(pots.categoryId, category);
     }
     return undefined;
   };
 
   // Get total count for pagination
-  const total = await db
-    .select({ count: count() })
-    .from(pots)
-    .where((table) => whereFilter(table));
+  let totalQuery = db.select({ count: count() }).from(pots);
+  const filter = whereFilter();
+  if (filter) {
+    totalQuery = totalQuery.where(filter);
+  }
+  const total = await totalQuery;
 
   // Fetch paginated pots
   const items = await db.query.pots.findMany({
     limit: pageSize,
     offset,
     orderBy: (pots, { desc }) => [desc(pots.createdAt)],
-    where(pots) {
-      return whereFilter(pots);
-    },
+    ...(filter
+      ? {
+          where() {
+            return filter;
+          },
+        }
+      : {}),
   });
 
   const itemsWithCoverImage = items.map((item) => ({
