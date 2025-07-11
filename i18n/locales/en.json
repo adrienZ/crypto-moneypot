@@ -1,0 +1,61 @@
+{
+  "header": {
+    "brand": "CryptoPot",
+    "explore": "Explore Moneypots",
+    "create": "Create Moneypot",
+    "login": "Login",
+    "profile": "Profile",
+    "addWallet": "Add wallet",
+    "removeWallet": "Remove wallet",
+    "logout": "Logout"
+  },
+  "home": {
+    "hero": "Borderless Generosity with cryptos",
+    "explore": "Explore Moneypots",
+    "create": "Create Moneypot",
+    "showMore": "Show more pots"
+  },
+  "footer": {
+    "openDevtools": "Open DevTools"
+  },
+  "createPot": {
+    "title": "Create a Moneypot",
+    "errorCategories": "error loading categories",
+    "labels": {
+      "title": "Title",
+      "showTarget": "Show target amount",
+      "targetAmount": "Target amount",
+      "description": "Description",
+      "image": "Image"
+    },
+    "tips": {
+      "size": "• Your image must be smaller than 10 MB.",
+      "formats": "• Accepted formats are .jpg, .jpeg and .png",
+      "dimensions": "• Minimum 350 px wide and 255 px high",
+      "offensive": "• Offensive images will not be accepted."
+    },
+    "submit": "Submit",
+    "timeline": {
+      "category": "Category",
+      "design": "Design Phase",
+      "development": "Development Sprint",
+      "testing": "Testing & Deployment"
+    }
+  },
+  "profile": {
+    "title": "Your profile",
+    "email": "Email",
+    "sessions": "Sessions",
+    "moneypots": "Your moneypots",
+    "wallets": "Your wallets",
+    "addWalletButton": "Add Wallet"
+  },
+  "pots": {
+    "error": "something went wrong",
+    "target": "target: {amount} ETH"
+  },
+  "imagePicker": {
+    "setImage": "set image",
+    "invalid": "Invalid image"
+  }
+}
