@@ -10,8 +10,8 @@
     </div>
 
     <div v-if="visibleMoneypots">
-      <div v-if="visibleMoneypots.pots.length === 0">no results</div>
-      <ul v-else class="grid grid-cols-5 gap-4 mt-8">
+      <div class="my-4 font-bold">{{ visibleMoneypots.total }} results</div>
+      <ul v-if="visibleMoneypots.pots.length > 0" class="grid grid-cols-5 gap-4">
         <li v-for="moneypot in visibleMoneypots.pots" :key="moneypot.id">
           <NuxtLinkLocale :to="{
             name: 'pots-id',
