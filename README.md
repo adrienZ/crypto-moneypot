@@ -50,6 +50,12 @@ pnpm hardhat:node
 Then connect your browser wallet (e.g. MetaMask) to `http://127.0.0.1:8545` and
 use the accounts provided by Hardhat for testing contract interactions.
 
+The available Hardhat accounts can also be inspected through the API:
+
+```bash
+curl http://localhost:3000/api/wallets/hardhat
+```
+
 ## Production
 
 Build the application for production:
