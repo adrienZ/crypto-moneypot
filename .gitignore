@@ -1,6 +1,8 @@
 # Nuxt dev/build outputs
 .output
-.data
+.data/**
+!.data/.gitkeep
+
 .nuxt
 .nitro
 .cache
@@ -24,5 +26,4 @@ logs
 !.env.example
 
 
-public/uploads
-!**/.gitkeep
+public/uploads/
