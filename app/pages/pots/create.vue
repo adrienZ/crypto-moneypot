@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-2xl mx-auto">
-    <h2>Creer une cagnotte</h2>
+    <h2>{{ $t('createPot.title') }}</h2>
     <UTimeline orientation="horizontal" v-model="currentStep" :items="items" class="w-full" />
 
     <section v-if="currentStep === 0">
@@ -18,43 +18,43 @@
 
         </div>
       </div>
-      <div v-else>error loading categories</div>
+      <div v-else>{{ $t('createPot.errorCategories') }}</div>
     </section>
 
     <section v-if="currentStep === 1">
       <UForm :schema="schema" :state="formStep2" class="space-y-4" @submit.prevent="createPot">
-        <UFormField label="Title" name="title">
+        <UFormField :label="$t('createPot.labels.title')" name="title">
           <UInput v-model="titleUrl" />
         </UFormField>
 
         <div>
-          <UFormField label="show target amount">
+          <UFormField :label="$t('createPot.labels.showTarget')">
             <USwitch v-model="enabledTargetAmount" />
           </UFormField>
-          <UFormField v-show="enabledTargetAmount" label="taget amount" name="targetAmount">
+          <UFormField v-show="enabledTargetAmount" :label="$t('createPot.labels.targetAmount')" name="targetAmount">
             <UInput v-model="targetAmount" type="number" />
           </UFormField>
         </div>
 
         <LazyClientOnly>
-          <UFormField label="description" name="description">
+          <UFormField :label="$t('createPot.labels.description')" name="description">
             <RichTextEditor v-model="description" />
           </UFormField>
         </LazyClientOnly>
 
-        <UFormField label="Image" name="coverImage">
+        <UFormField :label="$t('createPot.labels.image')" name="coverImage">
           <ImagePicker v-model="selectedFile" class="w-md" />
           <ul class="text-sm mt-1">
-            <li>• Your image must be smaller than 10 MB.</li>
-            <li>• Accepted formats are .jpg, .jpeg and .png</li>
-            <li>• Minimum 350 px wide and 255 px high</li>
-            <li>• Offensive images will not be accepted.</li>
+            <li>{{ $t('createPot.tips.size') }}</li>
+            <li>{{ $t('createPot.tips.formats') }}</li>
+            <li>{{ $t('createPot.tips.dimensions') }}</li>
+            <li>{{ $t('createPot.tips.offensive') }}</li>
           </ul>
         </UFormField>
 
 
         <UButton type="submit">
-          Submit
+          {{ $t('createPot.submit') }}
         </UButton>
       </UForm>
 
@@ -73,7 +73,10 @@ import type { FormSubmitEvent } from "@nuxt/ui";
 import RichTextEditor from "~/components/RichTextEditor.vue";
 import { useUrlParams } from "~/composables/useUrlParams";
 import ImagePicker from "~/components/ImagePicker.vue";
+import { useI18n } from "#imports";
 import { ethers } from "ethers";
+
+const { t } = useI18n();
 
 // #region url params
 // step 1
@@ -163,22 +166,22 @@ type Schema = z.output<typeof schema>;
 const currentStep = shallowRef(0);
 const items = ref<TimelineItem[]>([
   {
-    title: "Category",
+    title: t('createPot.timeline.category'),
     // description: "Kicked off the project with team alignment.",
     icon: "i-lucide-rocket",
   },
   {
-    title: "Design Phase",
+    title: t('createPot.timeline.design'),
     // description: "User research and design workshops.",
     icon: "i-lucide-palette",
   },
   {
-    title: "Development Sprint",
+    title: t('createPot.timeline.development'),
     // description: "Frontend and backend development.",
     icon: "i-lucide-code",
   },
   {
-    title: "Testing & Deployment",
+    title: t('createPot.timeline.testing'),
     // description: "QA testing and performance optimization.",
     icon: "i-lucide-check-circle",
   },

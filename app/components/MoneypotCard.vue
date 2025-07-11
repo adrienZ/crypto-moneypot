@@ -9,7 +9,7 @@
 
     <h3 class="text-lg font-semibold text-center">{{ title }}</h3>
     <div v-if="targetAmount">
-      target: {{ ethers.formatEther(BigInt(targetAmount)) }} ETH
+      {{ $t('pots.target', { amount: ethers.formatEther(BigInt(targetAmount)) }) }}
     </div>
   </UCard>
 </template>

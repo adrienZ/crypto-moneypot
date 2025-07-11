@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import { NuxtImg, UCard } from "#components";
-import { useAsyncData, useRoute } from "#imports";
+import { useAsyncData, useRoute, useI18n } from "#imports";
 import { computed } from "vue";
 import RichTextEditor from "~/components/RichTextEditor.vue";
 
 const route = useRoute("pots-id");
 const moneypotId = computed(() => route.params.id);
+const { t, locale } = useI18n();
 
 const { data, status } = useAsyncData(moneypotId, () =>
   $fetch(`/api/pots/${moneypotId.value as "string to have type inference"}`),
@@ -53,7 +54,7 @@ const { data, status } = useAsyncData(moneypotId, () =>
         <UCard variant="subtle" class="mt-4">
           <RichTextEditor readonly :modelValue="data.description" />
 
-          <h2 class="italic mt-4">{{ new Intl.DateTimeFormat("fr-FR").format(new Date(data.createdAt)) }}</h2>
+          <h2 class="italic mt-4">{{ new Intl.DateTimeFormat(locale).format(new Date(data.createdAt)) }}</h2>
         </UCard>
       </div>
 
@@ -64,5 +65,5 @@ const { data, status } = useAsyncData(moneypotId, () =>
 
     </main>
   </div>
-  <div v-else>something went wrong</div>
+  <div v-else>{{ $t('pots.error') }}</div>
 </template>

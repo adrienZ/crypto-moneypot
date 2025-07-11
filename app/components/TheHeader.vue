@@ -2,12 +2,12 @@
   <header>
     <div class="flex items-center justify-between py-2 px-6 bg-black">
       <div>
-        <NuxtLink to="/">CryptoPot</NuxtLink>
+        <NuxtLink to="/">{{ $t('header.brand') }}</NuxtLink>
       </div>
 
       <div class="flex gap-2 ml-auto mr-8">
-        <UButton size="md" color="secondary" to="/explore">Explore Moneypots</UButton>
-        <UButton size="md" color="primary" to="/pots/create">Create Moneypot</UButton>
+        <UButton size="md" color="secondary" to="/explore">{{ $t('header.explore') }}</UButton>
+        <UButton size="md" color="primary" to="/pots/create">{{ $t('header.create') }}</UButton>
       </div>
 
       <div v-if="session && user">
@@ -24,7 +24,7 @@
       </div>
 
       <div v-else>
-        <UButton @click="signIn">login</UButton>
+        <UButton @click="signIn">{{ $t('header.login') }}</UButton>
       </div>
 
     </div>
@@ -45,8 +45,10 @@ import { useWallet } from "~/composables/useWallet";
 import type { DropdownMenuItem } from "@nuxt/ui";
 import { computed, shallowRef, watch } from "vue";
 import { ethers } from "ethers";
+import { useI18n } from "#imports";
 
 const { session, client, fetchSession, user } = useAuth();
+const { t } = useI18n();
 const signIn = async () => {
   await client.signIn.social({
     provider: "github",
@@ -96,14 +98,14 @@ const items = computed<DropdownMenuItem[][]>(() => {
 
   const userMenu: DropdownMenuItem[] = [
     {
-      label: "Profile",
+      label: t('header.profile'),
       icon: "i-lucide-user",
       to: "/profile",
     },
   ];
   if (!currentWallet.value) {
     userMenu.push({
-      label: "Add wallet",
+      label: t('header.addWallet'),
       icon: "i-lucide-wallet",
       onSelect() {
         connect();
@@ -113,7 +115,7 @@ const items = computed<DropdownMenuItem[][]>(() => {
 
   menu.push(userHeaderMenu, userMenu, [
     {
-      label: "Logout",
+      label: t('header.logout'),
       icon: "i-lucide-log-out",
       onSelect() {
         signOut();
@@ -135,7 +137,7 @@ const items = computed<DropdownMenuItem[][]>(() => {
       ],
       [
         {
-          label: "Remove wallet",
+          label: t('header.removeWallet'),
           icon: "i-lucide-wallet",
           onSelect() {
             removeWallet();

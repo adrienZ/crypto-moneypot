@@ -2,10 +2,10 @@
   <div>
     <div class="md:flex gap-8 sticky mt-10 top-0">
       <section class="px-6 py-10 font-bold md:w-5/12">
-        <h1 class="text-7xl">Borderless Generosity with cryptos</h1>
+        <h1 class="text-7xl">{{ $t('home.hero') }}</h1>
         <div class="flex gap-2 mt-8">
-          <UButton size="xl" color="secondary" to="/explore">Explore Moneypots</UButton>
-          <UButton size="xl" color="primary" to="/pots/create">Create Moneypot</UButton>
+          <UButton size="xl" color="secondary" to="/explore">{{ $t('home.explore') }}</UButton>
+          <UButton size="xl" color="primary" to="/pots/create">{{ $t('home.create') }}</UButton>
         </div>
       </section>
 
@@ -32,7 +32,7 @@
         </ul>
 
         <div class="mt-4 flex justify-center">
-          <UButton size="xl" to="/explore">Show more pots</UButton>
+          <UButton size="xl" to="/explore">{{ $t('home.showMore') }}</UButton>
         </div>
       </div>
     </div>

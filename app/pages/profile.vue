@@ -1,21 +1,21 @@
 <template>
   <div>
-    <h2>Your profile {{ status }} {{ error }}</h2>
+    <h2>{{ $t('profile.title') }} {{ status }} {{ error }}</h2>
     <div v-if="data">
-      <p v-if="data.user">Email: {{ data.user.email }}</p>
-      <h3>Sessions</h3>
+      <p v-if="data.user">{{ $t('profile.email') }}: {{ data.user.email }}</p>
+      <h3>{{ $t('profile.sessions') }}</h3>
       <ul>
         <li v-for="s in data.sessions" :key="s.id">
           {{ s.createdAt }}
         </li>
       </ul>
-      <h3>Your moneypots</h3>
+      <h3>{{ $t('profile.moneypots') }}</h3>
       <ul>
         <li v-for="p in data.pots" :key="p.id">
           <NuxtLink :to="`/pots/${p.id}`">{{ p.title }}</NuxtLink>
         </li>
       </ul>
-      <h3>Your wallets</h3>
+      <h3>{{ $t('profile.wallets') }}</h3>
       <ul>
         <template v-for="w in wallets" :key="`key-wallet-${w.label}`">
           <li v-for="account in w.accounts">
@@ -27,7 +27,7 @@
           </li>
         </template>
       </ul>
-      <button @click="connectAndAdd">Add Wallet</button>
+      <button @click="connectAndAdd">{{ $t('profile.addWalletButton') }}</button>
     </div>
   </div>
 </template>

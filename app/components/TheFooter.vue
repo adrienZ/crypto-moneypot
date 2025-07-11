@@ -5,7 +5,7 @@
       <DevOnly>
         <div class="max-w-5xl mx-auto">
           <button @click="triggerDevTools">
-            Open DevTools
+            {{ $t('footer.openDevtools') }}
           </button>
         </div>
       </DevOnly>

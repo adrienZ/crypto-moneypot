@@ -1,0 +1,61 @@
+{
+  "header": {
+    "brand": "CryptoPot",
+    "explore": "Explorer les cagnottes",
+    "create": "Créer une cagnotte",
+    "login": "Se connecter",
+    "profile": "Profil",
+    "addWallet": "Ajouter un portefeuille",
+    "removeWallet": "Supprimer le portefeuille",
+    "logout": "Se déconnecter"
+  },
+  "home": {
+    "hero": "Générosité sans frontières avec les cryptos",
+    "explore": "Explorer les cagnottes",
+    "create": "Créer une cagnotte",
+    "showMore": "Voir plus de cagnottes"
+  },
+  "footer": {
+    "openDevtools": "Ouvrir les outils de développement"
+  },
+  "createPot": {
+    "title": "Créer une cagnotte",
+    "errorCategories": "erreur lors du chargement des catégories",
+    "labels": {
+      "title": "Titre",
+      "showTarget": "Afficher l'objectif",
+      "targetAmount": "Montant cible",
+      "description": "Description",
+      "image": "Image"
+    },
+    "tips": {
+      "size": "• Votre image doit faire moins de 10 Mo.",
+      "formats": "• Les formats acceptés sont .jpg, .jpeg et .png",
+      "dimensions": "• Minimum 350 px de large et 255 px de haut",
+      "offensive": "• Les images offensantes ne seront pas acceptées."
+    },
+    "submit": "Envoyer",
+    "timeline": {
+      "category": "Catégorie",
+      "design": "Phase de conception",
+      "development": "Développement",
+      "testing": "Tests et déploiement"
+    }
+  },
+  "profile": {
+    "title": "Votre profil",
+    "email": "Email",
+    "sessions": "Sessions",
+    "moneypots": "Vos cagnottes",
+    "wallets": "Vos portefeuilles",
+    "addWalletButton": "Ajouter un portefeuille"
+  },
+  "pots": {
+    "error": "une erreur s'est produite",
+    "target": "objectif : {amount} ETH"
+  },
+  "imagePicker": {
+    "setImage": "sélectionner une image",
+    "invalid": "Image invalide"
+  }
+}
