@@ -187,7 +187,7 @@ const items = ref<TimelineItem[]>([
 ]);
 
 const { data: moneypotCategories } = await useAsyncData(
-  "moneypot-categories",
+  "moneypot-categories-create",
   () => $fetch("/api/pots/categories"),
 );
 

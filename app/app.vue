@@ -4,7 +4,7 @@
     <UApp>
       <TheHeader />
 
-      <NuxtPage class="max-w-5xl mx-auto grow" />
+      <NuxtPage class="max-w-5xl mx-auto grow w-full" />
       <TheFooter />
     </UApp>
   </div>
