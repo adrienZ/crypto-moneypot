@@ -8,13 +8,13 @@
     <input class="hidden" ref="input" type="file" accept="image/png,image/jpeg,image/jpg" @change="handleFileChange" />
 
 
-    <button type="button" class="cta absolute bottom-0 bg-amber-500 p-4 rounded-3xl w-1/2" @click="inputEl?.click()">set
-      image</button>
+    <button type="button" class="cta absolute bottom-0 bg-amber-500 p-4 rounded-3xl w-1/2" @click="inputEl?.click()">{{ $t('imagePicker.setImage') }}</button>
   </label>
 </template>
 
 <script setup lang="ts">
 import { shallowRef, useTemplateRef } from "vue";
+import { useI18n } from "#imports";
 
 const inputEl = useTemplateRef("input");
 
@@ -29,6 +29,7 @@ withDefaults(
 
 const preview = shallowRef<string>();
 const model = defineModel<File>();
+const { t } = useI18n();
 
 function handleFileChange(event: Event) {
   const reader = new FileReader();
@@ -40,7 +41,7 @@ function handleFileChange(event: Event) {
   }
   const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
   if (!allowedTypes.includes(file.type) || file.size > 10 * 1024 * 1024) {
-    alert("Invalid image");
+    alert(t('imagePicker.invalid'));
     return;
   }
 

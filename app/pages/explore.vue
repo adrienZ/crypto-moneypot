@@ -2,14 +2,14 @@
   <div>
     <ul v-if="visibleMoneypots" class="grid grid-cols-5 gap-4 mt-8">
       <li v-for="moneypot in visibleMoneypots.pots" :key="moneypot.id">
-        <NuxtLink :to="{
+        <NuxtLinkLocale :to="{
           name: 'pots-id',
           params: {
             id: moneypot.id
           }
         }">
           <MoneypotCard v-bind="getUIPropsFromMoneypot(moneypot)" class=""></MoneypotCard>
-        </NuxtLink>
+        </NuxtLinkLocale>
       </li>
     </ul>
     <UPagination v-model:page="pageAsInt" show-edges :items-per-page="pageSize" :total="visibleMoneypots?.total" />
@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import { useAsyncData } from "#app";
-import { NuxtLink, UPagination } from "#components";
+import { NuxtLinkLocale, UPagination } from "#components";
 import { computed } from "vue";
 import MoneypotCard from "~/components/MoneypotCard.vue";
 import { useUrlParams } from "~/composables/useUrlParams";

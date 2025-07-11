@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     "./app/modules/drizzle-studio",
     "@nuxt/devtools",
     "@nuxt/image",
+    "@nuxtjs/i18n",
   ],
   css: [`~/assets/style/main.css`],
   future: {
@@ -31,6 +32,18 @@ export default defineNuxtConfig({
   nitro: {
     experimental: {
       tasks: true,
+    },
+  },
+
+  i18n: {
+    defaultLocale: 'fr',
+    locales: [
+      { code: 'en', iso: 'en-US', file: 'en.json', name: 'English', emoji: "🇬🇧" },
+      { code: 'fr', iso: 'fr-FR', file: 'fr.json', name: 'Français', emoji: "🇫🇷" },
+    ],
+    lazy: true,
+    bundle: {
+      optimizeTranslationDirective: false,
     },
   },
 });
