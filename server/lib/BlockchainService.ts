@@ -11,6 +11,10 @@ class BlockchainService {
     return this.provider.getNetwork();
   }
 
+  async listWallets(): Promise<string[]> {
+    return this.provider.listAccounts();
+  }
+
   async getBalance(addr: string): Promise<string> {
     const balance = await this.provider.getBalance(addr);
     return ethers.formatEther(balance);
