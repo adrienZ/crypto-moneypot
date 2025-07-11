@@ -105,8 +105,8 @@ const formStep2FormData = computed(() => {
     title: titleUrl.value,
     targetAmount: targetAmount.value
       ? String(
-          converter.ether(String(targetAmount.value)),
-        ) /* formData can't use numbers */
+        converter.ether(String(targetAmount.value)),
+      ) /* formData can't use numbers */
       : "",
     description: description.value,
     categoryId: categoryId.value,
@@ -185,7 +185,7 @@ const items = ref<TimelineItem[]>([
 ]);
 
 const { data: moneypotCategories } = await useAsyncData(
-  "moneypot-categories",
+  "moneypot-categories-create",
   () => $fetch("/api/pots/categories"),
 );
 
@@ -208,8 +208,8 @@ const groupedMoneyPotCategories = computed(() =>
 const moneypotCategoriesTypes = computed(() =>
   groupedMoneyPotCategories.value
     ? (Object.keys(groupedMoneyPotCategories.value) as unknown as Array<
-        keyof typeof groupedMoneyPotCategories.value
-      >)
+      keyof typeof groupedMoneyPotCategories.value
+    >)
     : [],
 );
 

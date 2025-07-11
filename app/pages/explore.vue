@@ -1,16 +1,13 @@
 <template>
   <div>
-    <div class="flex items-end gap-4">
-      <UInput v-model="localSearch" placeholder="Search" class="w-64" />
-      <USelect
-        v-model="localCategory"
-        :options="categoryOptions"
-        option-attribute="label"
-        value-attribute="value"
-        placeholder="Category"
-        class="w-48"
-      />
-      <UButton @click="applyFilters">Search</UButton>
+    <div class="background bg-neutral-700 px-4">
+      <h1 class="text-3xl font-bold pt-4">Explore Moneypots</h1>
+      <p class="mt-2">Discover and contribute to moneypots created by others.</p>
+      <div class="flex items-end gap-2 mt-4 pb-4">
+        <UInput size="xl" v-model="localSearch" placeholder="Search" class="grow" />
+        <USelect size="xl" v-model="localCategory" :items="categoryOptions" placeholder="Category" class="w-52" />
+        <UButton size="xl" @click="applyFilters">Search</UButton>
+      </div>
     </div>
     <ul v-if="visibleMoneypots" class="grid grid-cols-5 gap-4 mt-8">
       <li v-for="moneypot in visibleMoneypots.pots" :key="moneypot.id">
@@ -24,12 +21,8 @@
         </NuxtLink>
       </li>
     </ul>
-    <UPagination
-      v-model:page="pageAsInt"
-      show-edges
-      :items-per-page="pageSize"
-      :total="visibleMoneypots?.total"
-    />
+    <UPagination class="my-6" v-model:page="pageAsInt" show-edges :items-per-page="pageSize"
+      :total="visibleMoneypots?.total" />
 
   </div>
 </template>
@@ -68,14 +61,14 @@ const applyFilters = () => {
 };
 
 const { data: categories } = await useAsyncData(
-  "moneypot-categories",
+  "moneypot-categories-explore",
   () => $fetch("/api/pots/categories"),
+  {
+    default: () => ([]),
+  }
 );
 
-const categoryOptions = computed(() => [
-  { label: "All", value: "" },
-  ...(categories.value?.map((c) => ({ label: c.slug, value: c.id })) ?? []),
-]);
+const categoryOptions = computed(() => categories.value.map((c) => ({ label: c.slug, value: c.id })));
 
 watch([search, category], () => {
   pageAsInt.value = 1;
