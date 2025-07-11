@@ -1,38 +1,44 @@
 <template>
   <div>
-    <div class="background bg-neutral-700 px-4">
-      <h1 class="text-3xl font-bold pt-4">Explore Moneypots</h1>
-      <p class="mt-2">Discover and contribute to moneypots created by others.</p>
-      <div class="flex items-end gap-2 mt-4 pb-4">
-        <UInput size="xl" v-model="localSearch" placeholder="Search" class="grow" />
-        <USelect size="xl" v-model="localCategory" :items="categoryOptions" placeholder="Category" class="w-52" />
-        <UButton size="xl" @click="applyFilters">Search</UButton>
+    <div class="background bg-neutral-700">
+      <div class="max-w-2xl mx-auto">
+        <h1 class="text-3xl font-bold pt-4">Explore Moneypots</h1>
+        <p class="mt-2">Discover and contribute to moneypots created by others.</p>
+        <ExploreFilterForm v-model:search="localSearch" v-model:category="localCategory"
+          :category-options="categoryOptions" @submit="applyFilters" class="py-4" />
       </div>
     </div>
-    <ul v-if="visibleMoneypots" class="grid grid-cols-5 gap-4 mt-8">
-      <li v-for="moneypot in visibleMoneypots.pots" :key="moneypot.id">
-        <NuxtLinkLocale :to="{
-          name: 'pots-id',
-          params: {
-            id: moneypot.id
-          }
-        }">
-          <MoneypotCard v-bind="getUIPropsFromMoneypot(moneypot)" class=""></MoneypotCard>
-        </NuxtLinkLocale>
-      </li>
-    </ul>
+
+    <div v-if="visibleMoneypots">
+      <div v-if="visibleMoneypots.pots.length === 0">no results</div>
+      <ul v-else class="grid grid-cols-5 gap-4 mt-8">
+        <li v-for="moneypot in visibleMoneypots.pots" :key="moneypot.id">
+          <NuxtLinkLocale :to="{
+            name: 'pots-id',
+            params: {
+              id: moneypot.id
+            }
+          }">
+            <MoneypotCard v-bind="getUIPropsFromMoneypot(moneypot)" class=""></MoneypotCard>
+          </NuxtLinkLocale>
+        </li>
+      </ul>
+    </div>
+
+
     <UPagination class="my-6" v-model:page="pageAsInt" show-edges :items-per-page="pageSize"
       :total="visibleMoneypots?.total" />
-
   </div>
 </template>
 
 
 <script setup lang="ts">
 import { useAsyncData } from "#app";
-import { NuxtLinkLocale, UPagination, UInput, USelect } from "#components";
+import { NuxtLinkLocale, UPagination } from "#components";
 import { computed, watch, ref } from "vue";
 import MoneypotCard from "~/components/MoneypotCard.vue";
+import ExploreFilterForm from "~/components/ExploreFilterForm.vue";
+
 import { useUrlParams } from "~/composables/useUrlParams";
 import { getUIPropsFromMoneypot } from "~/helpers/moneypotUIHelpers";
 
