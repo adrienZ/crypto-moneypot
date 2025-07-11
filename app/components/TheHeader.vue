@@ -2,7 +2,7 @@
   <header>
     <div class="flex items-center justify-between py-2 px-6 bg-black">
       <div>
-        <NuxtLink to="/">{{ $t('header.brand') }}</NuxtLink>
+        <NuxtLinkLocale to="index">{{ $t('header.brand') }}</NuxtLinkLocale>
       </div>
 
       <div class="flex gap-2 ml-auto mr-8">
@@ -34,7 +34,7 @@
 
 <script lang="ts" setup>
 import {
-  NuxtLink,
+  NuxtLinkLocale,
   UButton,
   UDropdownMenu,
   UAvatar,

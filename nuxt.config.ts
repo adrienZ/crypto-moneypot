@@ -36,14 +36,14 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    langDir: 'locales',
+    defaultLocale: 'fr',
     locales: [
-      { code: 'en', iso: 'en-US', file: 'en.json', name: 'English' },
-      { code: 'fr', iso: 'fr-FR', file: 'fr.json', name: 'Français' }
+      { code: 'en', iso: 'en-US', file: 'en.json', name: 'English', emoji: "🇬🇧" },
+      { code: 'fr', iso: 'fr-FR', file: 'fr.json', name: 'Français', emoji: "🇫🇷" },
     ],
-    defaultLocale: 'en',
-    vueI18n: {
-      fallbackLocale: 'en'
-    }
+    lazy: true,
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
   },
 });

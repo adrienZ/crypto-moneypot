@@ -65,7 +65,6 @@
 
 <script setup lang="ts">
 import { computed, shallowRef, ref } from "vue";
-import { navigateTo, useAsyncData, useLazyFetch } from "#app";
 import { UTimeline, UCard, USwitch } from "#components";
 import type { TimelineItem } from "@nuxt/ui";
 import * as z from "zod";
@@ -73,10 +72,10 @@ import type { FormSubmitEvent } from "@nuxt/ui";
 import RichTextEditor from "~/components/RichTextEditor.vue";
 import { useUrlParams } from "~/composables/useUrlParams";
 import ImagePicker from "~/components/ImagePicker.vue";
-import { useI18n } from "#imports";
+import { navigateTo, useI18n, useSwitchLocalePath, useAsyncData, useLazyFetch, useLocaleRoute } from "#imports";
 import { ethers } from "ethers";
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 // #region url params
 // step 1
@@ -108,8 +107,8 @@ const formStep2FormData = computed(() => {
     title: titleUrl.value,
     targetAmount: targetAmount.value
       ? String(
-          converter.ether(String(targetAmount.value)),
-        ) /* formData can't use numbers */
+        converter.ether(String(targetAmount.value)),
+      ) /* formData can't use numbers */
       : "",
     description: description.value,
     categoryId: categoryId.value,
@@ -211,8 +210,8 @@ const groupedMoneyPotCategories = computed(() =>
 const moneypotCategoriesTypes = computed(() =>
   groupedMoneyPotCategories.value
     ? (Object.keys(groupedMoneyPotCategories.value) as unknown as Array<
-        keyof typeof groupedMoneyPotCategories.value
-      >)
+      keyof typeof groupedMoneyPotCategories.value
+    >)
     : [],
 );
 
@@ -221,6 +220,7 @@ function handleCategorySelection(selectedCategoryId: string) {
   currentStep.value = 1;
 }
 
+const localeRoute = useLocaleRoute()
 const createPot = async () => {
   const { pot } = await $fetch("/api/pots/create", {
     method: "POST",
@@ -231,7 +231,10 @@ const createPot = async () => {
     throw new Error("error while creating pot");
   }
 
-  await navigateTo(`/pots/${pot.id}`);
+  await navigateTo(localeRoute({
+    name: "pots-id",
+    params: { id: pot.id },
+  }, locale.value));
 };
 
 // go to step 2 if category is found in url state

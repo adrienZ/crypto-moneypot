@@ -12,7 +12,12 @@
       <h3>{{ $t('profile.moneypots') }}</h3>
       <ul>
         <li v-for="p in data.pots" :key="p.id">
-          <NuxtLink :to="`/pots/${p.id}`">{{ p.title }}</NuxtLink>
+          <NuxtLinkLocale :to="{
+            name: 'pots-id',
+            params: {
+              id: p.id
+            }
+          }">{{ p.title }}</NuxtLinkLocale>
         </li>
       </ul>
       <h3>{{ $t('profile.wallets') }}</h3>
@@ -33,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { NuxtLink } from "#components";
+import { NuxtLinkLocale } from "#components";
 import { useAsyncData, useRequestHeaders } from "#imports";
 import { useWallet } from "~/composables/useWallet";
 

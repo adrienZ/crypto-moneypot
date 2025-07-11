@@ -4,7 +4,7 @@ import { useAsyncData, useRoute, useI18n } from "#imports";
 import { computed } from "vue";
 import RichTextEditor from "~/components/RichTextEditor.vue";
 
-const route = useRoute("pots-id");
+const route = useRoute("pots-id___fr");
 const moneypotId = computed(() => route.params.id);
 const { t, locale } = useI18n();
 
