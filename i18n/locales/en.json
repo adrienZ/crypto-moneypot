@@ -18,6 +18,17 @@
   "footer": {
     "openDevtools": "Open DevTools"
   },
+  "explore": {
+    "title": "Explore Moneypots",
+    "description": "Discover and contribute to moneypots created by others.",
+    "results": "{total} results",
+    "filters": {
+      "searchPlaceholder": "Search",
+      "categoryPlaceholder": "Category",
+      "searchButton": "Search",
+      "all": "All"
+    }
+  },
   "createPot": {
     "title": "Create a Moneypot",
     "errorCategories": "error loading categories",

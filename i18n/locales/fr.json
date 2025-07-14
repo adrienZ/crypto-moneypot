@@ -18,6 +18,17 @@
   "footer": {
     "openDevtools": "Ouvrir les outils de développement"
   },
+  "explore": {
+    "title": "Explorer les cagnottes",
+    "description": "Découvrez et contribuez aux cagnottes créées par d'autres.",
+    "results": "{total} résultats",
+    "filters": {
+      "searchPlaceholder": "Rechercher",
+      "categoryPlaceholder": "Catégorie",
+      "searchButton": "Rechercher",
+      "all": "Toutes"
+    }
+  },
   "createPot": {
     "title": "Créer une cagnotte",
     "errorCategories": "erreur lors du chargement des catégories",
