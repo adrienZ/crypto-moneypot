@@ -2,15 +2,15 @@
   <div>
     <div class="background bg-neutral-700">
       <div class="max-w-2xl mx-auto">
-        <h1 class="text-3xl font-bold pt-4">Explore Moneypots</h1>
-        <p class="mt-2">Discover and contribute to moneypots created by others.</p>
+        <h1 class="text-3xl font-bold pt-4">{{ t('explore.title') }}</h1>
+        <p class="mt-2">{{ t('explore.description') }}</p>
         <ExploreFilterForm v-model:search="localSearch" v-model:category="localCategory"
           :category-options="categoryOptions" @submit="applyFilters" class="py-4" />
       </div>
     </div>
 
     <div v-if="visibleMoneypots">
-      <div class="my-4 font-bold">{{ visibleMoneypots.total }} results</div>
+      <div class="my-4 font-bold">{{ t('explore.results', { total: visibleMoneypots.total }) }}</div>
       <ul v-if="visibleMoneypots.pots.length > 0" class="grid grid-cols-5 gap-4">
         <li v-for="moneypot in visibleMoneypots.pots" :key="moneypot.id">
           <NuxtLinkLocale :to="{
@@ -36,11 +36,14 @@
 import { useAsyncData } from "#app";
 import { NuxtLinkLocale, UPagination } from "#components";
 import { computed, watch, ref } from "vue";
+import { useI18n } from "#imports";
 import MoneypotCard from "~/components/MoneypotCard.vue";
 import ExploreFilterForm from "~/components/ExploreFilterForm.vue";
 
 import { useUrlParams } from "~/composables/useUrlParams";
 import { getUIPropsFromMoneypot } from "~/helpers/moneypotUIHelpers";
+
+const { t } = useI18n();
 
 const page = useUrlParams("page");
 const pageAsInt = computed({
@@ -74,7 +77,10 @@ const { data: categories } = await useAsyncData(
   }
 );
 
-const categoryOptions = computed(() => categories.value.map((c) => ({ label: c.slug, value: c.id })));
+const categoryOptions = computed(() => [
+  { label: t('explore.filters.all'), value: "" },
+  ...categories.value.map((c) => ({ label: c.slug, value: c.id })),
+]);
 
 watch([search, category], () => {
   pageAsInt.value = 1;
