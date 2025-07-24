@@ -58,9 +58,12 @@ const { data, status } = useAsyncData(moneypotId, () =>
         </UCard>
       </div>
 
-      <UCard variant="subtle" class="w-3/8">
+      <UCard variant="subtle" class="w-3/8 space-y-4">
         <h2 class="text-2xl font-bold">{{ data.title }}</h2>
         <details>{{ data }}</details>
+        <UButton :to="{ name: 'pots-id-contribute', params: { id: data.id } }">
+          {{ $t('pots.contribute') }}
+        </UButton>
       </UCard>
 
     </main>
