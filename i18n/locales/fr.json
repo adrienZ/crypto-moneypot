@@ -52,7 +52,8 @@
   },
   "pots": {
     "error": "une erreur s'est produite",
-    "target": "objectif : {amount} ETH"
+    "target": "objectif : {amount} ETH",
+    "contribute": "Contribuer"
   },
   "imagePicker": {
     "setImage": "sélectionner une image",

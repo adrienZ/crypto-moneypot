@@ -188,7 +188,7 @@ const items = ref<TimelineItem[]>([
 
 const { data: moneypotCategories } = await useAsyncData(
   "moneypot-categories-create",
-  () => $fetch("/api/pots/categories"),
+  () => $fetch("/api/ressources/categories"),
 );
 
 const groupedMoneyPotCategories = computed(() =>

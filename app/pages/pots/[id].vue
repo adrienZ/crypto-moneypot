@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { NuxtImg, UCard } from "#components";
-import { useAsyncData, useRoute, useI18n } from "#imports";
-import { computed } from "vue";
+import { useAsyncData, useRoute, useI18n, useLocalePath } from "#imports";
+import { computed, useTemplateRef } from "vue";
 import RichTextEditor from "~/components/RichTextEditor.vue";
 
 const route = useRoute("pots-id___fr");
@@ -11,6 +11,7 @@ const { t, locale } = useI18n();
 const { data, status } = useAsyncData(moneypotId, () =>
   $fetch(`/api/pots/${moneypotId.value as "string to have type inference"}`),
 );
+const localePath = useLocalePath()
 
 // const contributionAmout = shallowRef(0);
 
@@ -58,12 +59,18 @@ const { data, status } = useAsyncData(moneypotId, () =>
         </UCard>
       </div>
 
-      <UCard variant="subtle" class="w-3/8">
+      <UCard variant="subtle" class="w-3/8 space-y-4">
         <h2 class="text-2xl font-bold">{{ data.title }}</h2>
         <details>{{ data }}</details>
+        <UButton :to="localePath({ name: 'pots-id-contribute', params: { id: data.id } })">
+          {{ $t('pots.contribute') }}
+        </UButton>
       </UCard>
 
     </main>
+
+    <!-- contribute modal page -->
+    <NuxtPage />
   </div>
   <div v-else>{{ $t('pots.error') }}</div>
 </template>

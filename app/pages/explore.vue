@@ -68,7 +68,7 @@ const applyFilters = () => {
 
 const { data: categories } = await useAsyncData(
   "moneypot-categories-explore",
-  () => $fetch("/api/pots/categories"),
+  () => $fetch("/api/ressources/categories"),
   {
     default: () => ([]),
   }
